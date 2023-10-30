@@ -1,0 +1,50 @@
+.homeContainer{
+    max-width: 1350px; 
+    margin: 0 auto;
+    padding: 0px 15px 15px 15px;
+    display: flex;
+    gap: 30px;
+    .homeLeft{
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        
+    }
+    .homeCenter{
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        .suggestedUsersContainer{
+            display: none;
+        }
+    }
+    .homeRight{
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .homeContainer{
+        .homeLeft{
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .homeContainer{
+        .homeCenter{
+            .suggestedUsersContainer{
+                display: block;
+            }
+        }
+        .homeRight{
+            display: none;
+        }
+    }
+}

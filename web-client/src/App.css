@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.horizontalHrdark{
+    background-color: rgb(40, 40, 40);
+    width: 100%;
+    height: 2px;
+    transition: .5s;
+}
+.horizontalHrlight{
+    background-color: rgb(210, 210, 210);
+    width: 100%;
+    height: 2px;
+    transition: .5s;
+}
+
+.verticalHrdark{
+    height: 50px;
+    width: 2px;
+    background-color: rgb(40, 40, 40);
+    transition: .5s;
+}
+.verticalHrlight{
+    height: 50px;
+    width: 2px;
+    background-color: rgb(210, 210, 210);
+    transition: .5s;
+}
+.MuiIconButton-root{
+    background-color: #EEEEEE;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+.globalIconsdark{
+    font-size: 30px;
+    color: white;
+    transition: .5s;
+}
+.globalIconslight{
+    font-size: 30px;
+    color: var(--lightTextPrimary);
+    transition: .5s;
+}
+.infinite-scroll-component__outerdiv{
+    height: 100%;
+}

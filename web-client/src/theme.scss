@@ -1,0 +1,93 @@
+:root {
+
+    --transition: 0.5s;
+     //dark theme
+    --darkBackground: #0A0A0A;
+
+    --darkWigetPrimary: #181818;
+    --darkWigetSecondary:#232323;
+
+    --darkTextPrimary:white;
+    --darktextSeconadry:gray;
+
+    --darkIcon:#333333;
+
+    //light theme
+    --lightBackground: #CAC8CA;
+
+    --lightWigetPrimary: white;
+    --lightWigetSecondary:#EEEEEE;
+
+    --lightTextPrimary:#2b2a2a;;
+    --lightTextSeconadry:gray;
+
+    --lightIcon:#E0E0E0;
+    
+    --globalTextSecondary:gray;
+}
+
+.dark{
+    background-color: var(--darkBackground);
+    .navbarBackground{
+        background-color: var(--darkBackground);
+        transition: background-color var(--transition);
+    }
+    .wigetPrimary{
+        background-color: var(--darkWigetPrimary);
+        transition: background-color var(--transition);
+    }
+    .wigetSecondary{
+        background-color: var(--darkWigetSecondary);
+        transition: background-color var(--transition);
+    }
+    .primaryText{
+        color: var(--darkTextPrimary);
+        transition: color var(--transition);
+    }
+    .secondaryText{
+        color: var(--darktextSeconadry);
+        transition: color var(--transition);
+    }
+    .notActive{
+        background-color: rgb(69, 69, 69);
+        transition: background-color var(--transition);
+    }
+    .bgInput{
+        background-color: var(--darkWigetSecondary);
+        color: var(--darkTextPrimary);
+        transition: background-color var(--transition);
+    }
+}
+
+.light{
+    background-color: var(--lightBackground);
+    .navbarBackground{
+        background-color: var(--lightBackground);
+        transition: background-color var(--transition);
+    }
+    .wigetPrimary{
+        background-color: var(--lightWigetPrimary);
+        transition: background-color var(--transition);
+    }
+    .wigetSecondary{
+        background-color: var(--lightWigetSecondary);
+        transition: background-color var(--transition);
+    }
+    .primaryText{
+        color: var(--lightTextPrimary);
+        transition: color var(--transition);
+    }
+    .secondaryText{
+        color: var(--lightTextSeconadry);
+        transition: color var(--transition);
+    }
+    .notActive{
+        background-color: rgb(150, 150, 150);
+        transition: background-color var(--transition);
+    }
+    .bgInput{
+        background-color: var(--lightWigetSecondary);
+        color: var(--lightTextPrimary);
+        transition: background-color var(--transition);
+    }
+}

@@ -1,0 +1,26 @@
+.contact{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .contactInfo{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        img{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .userInfo{
+            display: flex;
+            flex-direction: column;
+            span:nth-of-type(1){
+                font-size: 16px;
+            }
+            span:nth-of-type(2){
+                font-size: 12px;
+            }
+        }
+    }
+}
