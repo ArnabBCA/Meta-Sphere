@@ -25,7 +25,7 @@ const Slides = ({stories,story,setOpenStoriesSliderModal,setSlideId}) => {
             <span>{story.fullName}{<span className={styles.location}><PlaceIcon style={{fontSize:"14px"}}/>Pandua</span>}</span>
           </div>
         </div>
-        <IconButton onClick={() => setOpenStoriesSliderModal(false)}sx={{":hover, &.Mui-focusVisible":{backgroundColor:"white",color:"grey"},color:"white"}}>
+        <IconButton onClick={() => setOpenStoriesSliderModal(false)}sx={{":hover, &.Mui-focusVisible":{backgroundColor:"white",color:"var(--darktextSeconadry)"},color:"white"}}>
           <CloseRoundedIcon/>
         </IconButton>
       </div>
