@@ -6,7 +6,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import NoProfilePic from '../../../assets/account.png'
 
 import { IconButton } from '@mui/material';
-import moment from 'moment';
+import useMoment from '../../../utils/useMoment';
 
 const Slides = ({stories,story,setOpenStoriesSliderModal,setSlideId}) => {
   useEffect(() => {
@@ -21,7 +21,7 @@ const Slides = ({stories,story,setOpenStoriesSliderModal,setSlideId}) => {
         <div className={styles.userInfo}>
           <img src={story.profilePicture ? story.profilePicture : NoProfilePic} alt="" />
           <div className={styles.userBio}>
-            <span>@{story.userName}<span className={styles.time}>{moment(stories.createdAt).fromNow()}</span></span>
+            <span>@{story.userName}<span className={styles.time}>{useMoment(stories.createdAt)}</span></span>
             <span>{story.fullName}{<span className={styles.location}><PlaceIcon style={{fontSize:"14px"}}/>Pandua</span>}</span>
           </div>
         </div>

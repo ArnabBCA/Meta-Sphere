@@ -5,7 +5,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import styles from './Post.module.scss';
 import { useSelector} from 'react-redux';
 import CommentBox from '../action buttons/commentBox/CommentBox';
-import moment from 'moment';
+import useMoment from '../../utils/useMoment';
 import StyledIconButton from '../styled Components/CustomIconButton';
 import PostLike from '../action buttons/postLike/PostLike';
 import PostDelete from '../action buttons/postDelete/PostDelete';
@@ -30,7 +30,6 @@ const HomeCenterFeed = ({ post, postSection }) => {
       setShareOpen(false);
     }, 5000);
   };
-
   return (
     <WegetWrapper>
       {postSection && <span>Vital Posts</span>} {/* for viral post section */}
@@ -40,7 +39,7 @@ const HomeCenterFeed = ({ post, postSection }) => {
           <div className={styles.userProfileInfo}>
             <div className={styles.timeBox}>
               <span className='primaryText'>@{post.userName}</span>
-              <span className='secondaryText'>{moment(post.createdAt).fromNow()}</span>
+              <span className='secondaryText'>{useMoment(post.createdAt)}</span>
             </div>
             <div className={styles.location}>
               <span className='secondaryText'>{post.fullName}</span>
