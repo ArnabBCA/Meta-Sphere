@@ -6,21 +6,19 @@ import { useSelector,useDispatch } from 'react-redux';
 import { closeSnackbar } from './state';
 
 import Home from "./pages/home/Home"
-import Register from "./pages/auth/Register"
-import Login from "./pages/auth/Login"
 import CustomScackbar from './components/styled Components/CustomSnackbar';
 
 import PersistLogin from './pages/auth/PersistLogin';
+import Auth from './pages/auth/Auth';
 
 function App() {
-  const isAuth=Boolean(useSelector((state)=>state.token));
+  const token=Boolean(useSelector((state)=>state.token));
   const theme=useSelector((state)=>state.theme);
   const dispatch = useDispatch();
   const snackbar = useSelector((state) => state.snackbar);
 
   useEffect(() => {
-    const body = document.body;
-    body.className = theme === 'dark' ? 'dark' : 'light';
+    document.body.className = theme === 'dark' ? 'dark' : 'light';
   }, [theme]);
   
   return (
@@ -28,10 +26,9 @@ function App() {
         <Routes>
           <Route>
             <Route element={<PersistLogin/>}>
-              <Route path='/' element={isAuth?<Home/>:<Navigate to="/login"/>}/>
+              <Route path='/' element={token?<Home/>:<Navigate to="/login"/>}/>
             </Route>
-            <Route path="/login"  element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
+            <Route path="/:page" element={<Auth/>}/>
           </Route>
         </Routes>
         <CustomScackbar open={snackbar.open} message={snackbar.message} severity={snackbar.severity} onClose={()=>dispatch(closeSnackbar())}/>

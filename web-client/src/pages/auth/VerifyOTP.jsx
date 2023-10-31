@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
-import styles from './Register.module.scss';
+import styles from './Auth.module.scss';
 
 import { useDispatch } from 'react-redux';
 import { openSnackbar } from '../../state';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const VerifyOTP = ({ email, resetForm }) => {
+const VerifyOTP = ({ email, resetForm ,currentPage }) => {
   const dispatch = useDispatch();
   const navigate=useNavigate();
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -53,7 +53,13 @@ const VerifyOTP = ({ email, resetForm }) => {
         otp: otp.join(''),
       });
       setOtp(['', '', '', '']);
-      navigate('/login');
+      resetForm();
+      if(currentPage==="register"){
+        navigate('/login');
+      }
+      else{
+        navigate('/');
+      }
       dispatch(openSnackbar({ message: `${res.data.message}`, severity: 'success' }));
     } catch (error) {
       console.log(error);
@@ -80,6 +86,7 @@ const VerifyOTP = ({ email, resetForm }) => {
         <button onClick={handleSendEmail}>Resend</button>
         <button onClick={handleVerifyOTP}>Verify</button>
       </div>
+      {currentPage === "register"  ? <span>Already have a account? <Link to="/login">Login</Link></span> :<span>Don't have a account? <Link to="/register">Signup</Link></span>}
     </div>
   );
 };

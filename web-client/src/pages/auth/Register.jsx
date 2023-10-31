@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react'
-import styles from './Register.module.scss'
-import EarthCanvas from '../../components/globe/Globe'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import styles from './Auth.module.scss'
+import { Link,useParams } from 'react-router-dom'
 import colors from './material-colors.json';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
@@ -11,9 +10,9 @@ import axios from 'axios';
 import VerifyOTP from './VerifyOTP';
 const Register = () => {
     const dispatch = useDispatch();
-    const navigate=useNavigate();
     const [image, setImage] = useState(null);
-    const [verify,setVerify]=useState(false);
+    const [verifyPage,setVerifyPage]=useState(false);
+    const { page } = useParams();
 
     const initialValues={
         userName:"",
@@ -69,8 +68,6 @@ const Register = () => {
         initialValues:initialValues,
         validationSchema:registerSchema,
         onSubmit : async (values)=>{
-            console.log(values);
-            //resetForm();
             try{
                 const res = await axios.post(`http://localhost:5000/api/auth/signup`, {
                     userName:values.userName,
@@ -79,11 +76,8 @@ const Register = () => {
                     password:values.password,
                     profilePicture:image,
                 });
-                console.log(image);
-                setVerify(true);
+                setVerifyPage(true);
                 dispatch(openSnackbar({message:"Verification Email Sent",severity:"success"}));
-                //resetForm();
-                //navigate('/login');
             }catch(error){
                 dispatch(openSnackbar({message:`${error.response.data.message}`,severity:"error"}));
             }
@@ -91,46 +85,36 @@ const Register = () => {
     });
 
   return (
-    <div className={styles.registerBackground}>
-        <div className={styles.register}>
-            <EarthCanvas/>
-            <div className={styles.registerContainer}>
-                <div className={styles.logo}>
-                    <span>{verify?"Verify":"Register"}</span>
+    <div className={styles.register_login_Container}>
+        <span>{verifyPage ? "Verify" : "Register"}</span>
+        {verifyPage ? <VerifyOTP email={values.email} resetForm={resetForm} currentPage={page}/> :
+        <div className={styles.formContainer}>
+            <form onSubmit={handleSubmit}>
+                <div className={styles.inputBox}>
+                    <input type="text" autoComplete='off' name='userName' placeholder='User Name' value={values.userName} onChange={(e) => {handleChange(e);handleChangeName(e);}} onBlur={handleBlur}/>
+                    {errors.userName && touched.userName ? <span className={styles.error}>{errors.userName}</span> : null}
                 </div>
-                <div className={styles.formContainer}>
-                        {verify 
-                        ? 
-                            <VerifyOTP email={values.email} resetForm={resetForm}/>
-                        :
-                        <form onSubmit={handleSubmit}>
-                        <div className={styles.inputBox}>
-                            <input type="text" autoComplete='off' name='userName' placeholder='User Name' value={values.userName} onChange={(e) => {handleChange(e);handleChangeName(e);}} onBlur={handleBlur}/>
-                            {errors.userName && touched.userName ? <span className={styles.error}>{errors.userName}</span> : null}
-                        </div>
-                        <div className={styles.inputBox}>
-                            <input type="text" autoComplete='off' name='fullName' placeholder='Full Name' value={values.name} onChange={(e) => {handleChange(e);handleChangeName(e);}} onBlur={handleBlur}/>
-                            {errors.fullName && touched.fullName ? <span className={styles.error}>{errors.fullName}</span> : null}
-                        </div>
-                        <div className={styles.inputBox}>
-                            <input type="email" autoComplete='off' name='email' placeholder='Email' value={values.email} onChange={handleChange} onBlur={handleBlur}/>
-                            { errors.email && touched.email  ? <span className={styles.error}>{errors.email}</span> : null}
-                        </div>
-                        <div className={styles.inputBox}>
-                            <input type="password" autoComplete='off' name='password' placeholder='Password' value={values.password} onChange={handleChange} onBlur={handleBlur}/>
-                            { errors.password && touched.password  ? <span className={styles.error}>{errors.password}</span> : null}
-                        </div>
-                        <div className={styles.inputBox}>
-                            <input type="password" autoComplete='off' name='confirmPassword' placeholder='Confirm Password' value={values.confirmPassword} onChange={handleChange} onBlur={handleBlur}/>
-                            { errors.confirmPassword && touched.confirmPassword  ? <span className={styles.error}>{errors.confirmPassword}</span> : null}
-                        </div>
-                        <button type='submit'>SignUp</button>
-                    </form>}
-                    <span>Already have a account? <Link to="/login">Login</Link></span>
+                <div className={styles.inputBox}>
+                    <input type="text" autoComplete='off' name='fullName' placeholder='Full Name' value={values.name} onChange={(e) => {handleChange(e);handleChangeName(e);}} onBlur={handleBlur}/>
+                    {errors.fullName && touched.fullName ? <span className={styles.error}>{errors.fullName}</span> : null}
                 </div>
-            </div>
-        </div>
-    </div> 
+                <div className={styles.inputBox}>
+                    <input type="email" autoComplete='off' name='email' placeholder='Email' value={values.email} onChange={handleChange} onBlur={handleBlur}/>
+                    { errors.email && touched.email  ? <span className={styles.error}>{errors.email}</span> : null}
+                </div>
+                <div className={styles.inputBox}>
+                    <input type="password" autoComplete='off' name='password' placeholder='Password' value={values.password} onChange={handleChange} onBlur={handleBlur}/>
+                    { errors.password && touched.password  ? <span className={styles.error}>{errors.password}</span> : null}
+                </div>
+                <div className={styles.inputBox}>
+                    <input type="password" autoComplete='off' name='confirmPassword' placeholder='Confirm Password' value={values.confirmPassword} onChange={handleChange} onBlur={handleBlur}/>
+                    { errors.confirmPassword && touched.confirmPassword  ? <span className={styles.error}>{errors.confirmPassword}</span> : null}
+                </div>
+                <button type='submit'>SignUp</button>
+            </form>
+            <span>Already have a account? <Link to="/login">Login</Link></span>
+        </div>}
+    </div>
   )
 }
 
