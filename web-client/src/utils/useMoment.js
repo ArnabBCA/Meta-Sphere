@@ -1,7 +1,6 @@
 import moment from 'moment';
 
 const useMoment = ( time ) => {
-    console.log(time);
     const createdAt = moment(time);
     const duration = moment.duration(moment().diff(createdAt));
     let timeAgo;
