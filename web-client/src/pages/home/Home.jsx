@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Home.module.scss'
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Navbar from '../../components/navbar/Navbar'
 import Profile from '../../components/profile/Profile'
@@ -19,7 +20,8 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 const Home = () => {
   const dispatch=useDispatch();
   const axiosPrivate=useAxiosPrivate();
-
+    const medium = useMediaQuery('(min-width:1100px)');
+    const small = useMediaQuery('(min-width:750px)');
     const {_id}=useSelector(state=>state.currentUser);
     const token=useSelector((state)=>state.token);
     const posts=useSelector(state=>state.posts);
@@ -59,17 +61,17 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className={styles.homeContainer}>
-        <div className={styles.homeLeft}>
+      <div className={styles.home}>
+        {small && <div className={`${styles.left} ${styles.homeContainer}`}>
           <Profile/>
           <Contacts/>
-        </div>
-        <div className={styles.homeCenter}>
+        </div>}
+        <div className={`${styles.center} ${styles.homeContainer}`}>
           <StoriesContainer/>
           <PostInput/>
-          <div className={styles.suggestedUsersContainer}>
+          {!medium && <div className={styles.suggestedUsersContainer}>
             <SuggestedUsers/>
-          </div>
+          </div>}
           <InfiniteScroll
             dataLength={posts.length}
             next={fetchMoreData}
@@ -81,9 +83,11 @@ const Home = () => {
             {posts.map((post)=>(<Post key={post._id} post={post}/>))}
           </InfiniteScroll>
         </div>
-        <div className={styles.homeRight}>
-          <SuggestedUsers/>
-        </div>
+        {medium && 
+          <div className={`${styles.right} ${styles.homeContainer}`}>
+            <SuggestedUsers/>
+          </div>
+        }
       </div>
     </>
   )
