@@ -5,7 +5,7 @@ import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
 import { useSelector,useDispatch } from 'react-redux';
 import { setPost,openSnackbar } from '../../../state';
-import moment from 'moment';
+import useMoment from '../../../utils/useMoment'
 import StyledIconButton from '../../styled Components/CustomIconButton';
 
 const CommentBox = ({post,commentCount}) => {
@@ -52,7 +52,7 @@ const CommentBox = ({post,commentCount}) => {
         <div className={styles.inputContainer}>
             <div className={`${styles.inputBox} wigetSecondary`}>
                 {currentUser.profilePicture && <img src={currentUser.profilePicture.url} alt="" />}
-                <input type="text" placeholder='Comment ...' onChange={(e)=>setComment(e.target.value)} value={comment} name='comment'/>
+                <input type="text" className='primaryText' placeholder='Comment ...' onChange={(e)=>setComment(e.target.value)} value={comment} name='comment'/>
                 <StyledIconButton onClick={sendComment} icon={<SendIcon/>} />
             </div>
         </div>
@@ -61,15 +61,19 @@ const CommentBox = ({post,commentCount}) => {
                 <img src={comment.profilePicture} alt="" />
                 <div className={styles.commentInfo}>
                     <div className={styles.timeBox}>
-                        <span>{comment.userName}</span>
-                        <span>{moment(comment.createdAt).fromNow()}</span>
+                        <span className='secondaryText'>{comment.userName}</span>
+                        <span className='secondaryText'>{useMoment(comment.createdAt)}</span>
                     </div>
-                    <span>{comment.text}</span>
+                    <span className='primaryText'>{comment.text}</span>
                 </div>
             </div>
         ))}
         <div className={styles.postControles}>
-            {commentCount===0 ? <span>No Comments</span> : leftComments<=0 ? <span>No more comments</span>: <span onClick={loadMoreComments}>View {leftComments} more comments ...</span>}
+            {commentCount===0 
+                ? <span className='secondaryText'>No Comments</span> 
+                    : leftComments<=0 
+                        ? <span className='secondaryText'>No more comments</span> 
+                            : <span onClick={loadMoreComments} className='secondaryText'>View {leftComments} more comments ...</span>}
             <StyledIconButton onClick={()=>setNoOfComments(1)} icon={<ExpandLessIcon/>}/>
         </div>
     </div>
