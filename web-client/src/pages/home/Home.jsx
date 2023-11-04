@@ -63,7 +63,7 @@ const Home = () => {
           <Profile/>
           <Contacts/>
         </div>}
-        <div className={`${styles.center} ${styles.homeContainer}`}>
+        <div id='scrollCenterDiv' className={`${styles.center} ${styles.homeContainer}`}>
           <StoriesContainer/>
           <PostInput/>
           {!medium && <div className={styles.suggestedUsersContainer}>
@@ -76,6 +76,7 @@ const Home = () => {
             loader={<CircularProgress/>}
             endMessage={<h4>You have reached the end</h4>}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center',gap:'30px' }}
+            scrollableTarget="scrollCenterDiv"
           >
             {posts.map((post)=>(<Post key={post._id} post={post}/>))}
           </InfiniteScroll>
