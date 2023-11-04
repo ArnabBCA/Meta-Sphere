@@ -73,7 +73,6 @@ const NavBar = () => {
             </div>
         </div>
         {searchUser && <div className={styles.searchResultBackground}>
-            <span className='primaryText'>Search result for "{searchUser}".</span>
             <div className={`${styles.searchResultContainer} wigetSecondary`}>
             {searchResult.length!=0 ? searchResult.map((user)=>(
                 <div className={styles.userConatainer} key={user._id}>
