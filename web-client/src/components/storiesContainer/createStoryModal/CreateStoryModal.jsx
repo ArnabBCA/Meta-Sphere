@@ -8,14 +8,14 @@ import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 import { IconButton } from '@mui/material';
 import { useSelector,useDispatch } from 'react-redux';
 import gradients from './gradients.json';
-import axios from 'axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { openSnackbar,setStories } from '../../../state'
 import ModalWrapper from '../../styled Components/modal wrapper/ModalWrapper';
 
 const CreateStoryModal = ({ setOpenCreateStoryModal, story, currentUser, token,setNewStoryCreated,openCreateStoryModal }) => {
   const fileInputRef = useRef(null);
   const dispatch=useDispatch();
-  const theme=useSelector((state)=>state.theme);
+  const axiosPrivate=useAxiosPrivate();
   const stories=useSelector((state)=>state.stories);
 
   const [storyText,setStoryText]=useState('');
@@ -60,16 +60,12 @@ const CreateStoryModal = ({ setOpenCreateStoryModal, story, currentUser, token,s
 
   const handleStoryPost=async()=>{
     try {
-      const res = await axios.post('http://localhost:5000/api/stories',{
+      const res = await axiosPrivate.post('/stories',{
         image:base64Image,
         creatorId:currentUser._id,
         desc:storyText,
         color1:currentGradient[0],
         color2:currentGradient[1],
-      }, {
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
       });
       if(res.data.userName){
         dispatch(setStories({
