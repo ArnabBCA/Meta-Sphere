@@ -11,15 +11,15 @@ import Avatar from '../../assets/account.png'
 
 import { useDispatch,useSelector } from 'react-redux';
 import AccountMenu from './AccountMenu';
-import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import { setTheme } from '../../state';
 import StyledIconButton from '../styled Components/CustomIconButton';
 import FollowUser from '../action buttons/FollowUser';
 
 const NavBar = () => {
+    const axiosPrivate=useAxiosPrivate();
     const theme=useSelector((state)=>state.theme);
-    const token=useSelector((state)=>state.token);
     const currentUser=useSelector((state)=>state.currentUser);
     const dispatch=useDispatch();
 
@@ -28,11 +28,7 @@ const NavBar = () => {
     const handleSearch = async() => {
         if(searchUser==='') return;
         try {
-            const res=await axios.get(`http://localhost:5000/api/users/search/${searchUser}`,{
-                headers: {
-                    Authorization: 'Bearer ' + token
-                },
-            })
+            const res=await axiosPrivate.get(`/users/search/${searchUser}`);
             setSearchResult(res.data);
         } catch (error) {
             console.log(error);
@@ -75,7 +71,7 @@ const NavBar = () => {
         {searchUser && <div className={styles.searchResultBackground}>
             <div className={`${styles.searchResultContainer} wigetSecondary`}>
             {searchResult.length!=0 ? searchResult.map((user)=>(
-                <div className={styles.userConatainer} key={user._id}>
+                <div className={styles.userConatainer} key={user.userId}>
                     <div className={styles.userBox}>
                         <img src={user.profilePicture ? user.profilePicture : Avatar} alt="" />
                         <div className={styles.userInfo}>
@@ -83,7 +79,7 @@ const NavBar = () => {
                             <span className='secondaryText'>{user.fullName}</span>
                         </div>
                     </div>
-                    <FollowUser userId={user._id} currentUser={currentUser} token={token}/>
+                    <FollowUser userId={user.userId} currentUser={currentUser}/>
                 </div>
             )):<span className={'secondaryText'} style={{fontSize:"14px"}}>No user found.</span>}
             </div>
