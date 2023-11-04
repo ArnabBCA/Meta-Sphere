@@ -4,12 +4,14 @@ import { Button } from '@mui/material'
 import { useDispatch,useSelector } from 'react-redux'
 import { updateCurrentUser,openSnackbar } from '../../state'
 
-const FollowUser = ({userId,currentUser,token}) => {
+const FollowUser = ({userId,currentUser}) => {
   const dispatch = useDispatch();
   const axiosPrivate=useAxiosPrivate();
   const theme=useSelector((state)=>state.theme);
   const handelFollow=async()=>{
     try {
+      if(currentUser._id===userId) return;
+      
       const res = await axiosPrivate.put(`/users/${userId}`, {
       userId: currentUser._id,
     });
@@ -44,7 +46,7 @@ const FollowUser = ({userId,currentUser,token}) => {
             color: theme === 'dark' ? 'black' : 'white',
           }
         }}
-        >{currentUser.following.includes(userId)?"Following":"Follow"}</Button>  {/* for follow */}
+        >{currentUser._id === userId ? "You" :currentUser.following.includes(userId)?"Following":"Follow"}</Button>  {/* for follow */}
     </>
   )
 }
