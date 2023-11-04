@@ -14,12 +14,6 @@ const createStory = async (req, res, next) => {
     const { image, creatorId, desc, color1, color2 } = req.body;
     try {
         const existingStories = await Story.find({ creatorId: creatorId }); //check if user has already created a story
-        if(existingStories.length>0){
-            console.log("Story Already Exists");
-        }
-        else{
-            console.log("Story Does Not Exists");
-        }
         let imageInfo = null;
         if (image) {
             const result = await cloudinary.uploader.upload(image, {
@@ -45,16 +39,14 @@ const createStory = async (req, res, next) => {
         const currentUser = await User.findById(creatorId);
 
         let currentUserStory=null;
-        if (existingStories.length > 0) {
-            console.log("if");
+        if (existingStories.length > 0) {        //if user has already created a story
             currentUserStory = {
                 ...saveStory.toObject(),
             };
         }
-        else {
-            console.log("else");
+        else {                                 //if user has not created a story
             currentUserStory = {
-                userName: currentUser.userNname,
+                userName: currentUser.userName,
                 fullName: currentUser.fullName,
                 profilePicture: currentUser.profilePicture.url,
                 location: currentUser.location,
