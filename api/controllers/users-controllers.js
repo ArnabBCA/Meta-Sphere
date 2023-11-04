@@ -19,16 +19,24 @@ const getCurrentUser=async(req,res,next)=>{
     }
 };
 
-//get user by userName
+//get users by userName
 const getUserByUserName=async(req,res,next)=>{
     try {
-        const user = await User.find({ userName: { $regex: req.params.userName, $options: 'i' }})
+        const users = await User.find({ userName: { $regex: req.params.userName, $options: 'i' }})
             .select('_id userName fullName profilePicture');
-        if(!user){
+        if(!users){
             const error= new HttpError('User not found.', 404);
             return next(error);
         }
-        res.status(200).json(user);
+        const mappedUsers = users.map(user => {
+            return {
+                userName: user.userName,
+                fullName: user.fullName,
+                profilePicture: user.profilePicture.url,
+            };
+        });
+        res.status(200).json(mappedUsers);
+
     } catch (err) {
         console.log(err);
         const error = new HttpError('Failed to get user.',500);
