@@ -30,6 +30,7 @@ const getUserByUserName=async(req,res,next)=>{
         }
         const mappedUsers = users.map(user => {
             return {
+                userId: user._id,
                 userName: user.userName,
                 fullName: user.fullName,
                 profilePicture: user.profilePicture.url,
