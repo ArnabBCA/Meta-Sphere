@@ -33,6 +33,7 @@ const FollowUser = ({userId,currentUser,token}) => {
       <Button onClick={handelFollow} variant="contained" sx={{
           backgroundColor: theme === 'dark' ? 'var(--lightWigetPrimary)' : 'var(--darkWigetPrimary)',
           borderRadius: "20px",
+          minWidth: "91px",
           transition:".5s",
           color: theme === 'dark' ? 'black' : 'white',
           fontSize: "12px",
