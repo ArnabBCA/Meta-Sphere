@@ -5,7 +5,7 @@ import NoprofilePic from '../../../assets/account.png';
 
 import StoriesSliderModal from '../storiesSliderModal/StoriesSliderModal';
 
-const Story = ({story,currentUser,newStoryCreated}) => {
+const Story = ({story,currentUser,newStoryCreated,setNewStoryCreated}) => {
     const [openStoriesSliderModal,setOpenStoriesSliderModal]=useState(false);
     const [allSlidesSeen,setAllSlidesSeen]=useState(false);
 
@@ -14,6 +14,7 @@ const Story = ({story,currentUser,newStoryCreated}) => {
         return storyItem.isSeenBy && storyItem.isSeenBy.includes(currentUser._id);
       });
       setAllSlidesSeen(isAllSlidesSeen);
+      setNewStoryCreated(false);
     };
     useEffect(() => {
       handleAllSlidesSeen();

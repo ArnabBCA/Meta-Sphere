@@ -68,7 +68,7 @@ const StoriesContainer = () => {
             <AddBoxRoundedIcon sx={{color:"aqua",fontSize:"35px"}}/>
             <span className='primaryText'>Create Story</span>
           </div>
-          {stories.map((story,index)=>(<Story key={index} story={story} currentUser={currentUser} newStoryCreated={newStoryCreated}/>))}
+          {stories.map((story,index)=>(<Story key={index} story={story} currentUser={currentUser} newStoryCreated={newStoryCreated} setNewStoryCreated={setNewStoryCreated}/>))}
           </InfiniteScroll>
         </div>
       </div>
