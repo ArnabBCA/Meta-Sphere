@@ -71,6 +71,7 @@
     gap: 10px;
     .searchResultContainer{
         position: absolute;
+        z-index: 999;
         max-width: 300px;
         display: flex;
         flex-direction: column;
