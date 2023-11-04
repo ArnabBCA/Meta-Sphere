@@ -12,18 +12,19 @@ import Post from '../../components/post/Post'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { setPosts,openSnackbar } from '../../state'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const Home = () => {
-  const dispatch=useDispatch();
-  const axiosPrivate=useAxiosPrivate();
+    const dispatch=useDispatch();
+    const axiosPrivate=useAxiosPrivate();
+
     const medium = useMediaQuery('(min-width:1100px)');
     const small = useMediaQuery('(min-width:750px)');
+    
     const {_id}=useSelector(state=>state.currentUser);
-    const token=useSelector((state)=>state.token);
     const posts=useSelector(state=>state.posts);
 
     const [hasMorePosts, setHasMorePosts] = useState(true);
@@ -32,11 +33,7 @@ const Home = () => {
     const getTimelinePosts = async () => {
         let pageNo=Math.ceil(posts.length/limit)+1;
         try {
-            const res=await axiosPrivate.get(`/posts/timeline/${_id}/all?page=${pageNo}&limit=${limit}`,{
-                headers: {
-                    Authorization: 'Bearer ' + token
-                },
-            });
+            const res=await axiosPrivate.get(`/posts/timeline/${_id}/all?page=${pageNo}&limit=${limit}`);
             const mergedPosts=[...posts,...res.data];
             dispatch(setPosts({
                 posts:mergedPosts

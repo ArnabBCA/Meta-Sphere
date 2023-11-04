@@ -6,7 +6,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import NoProfilePic from '../../assets/account.png';
 
-import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useSelector,useDispatch } from 'react-redux';
 import { Button } from '@mui/material'
 
@@ -16,7 +16,7 @@ import WigetWrapper from '../styled Components/wiget wrapper/WegetWrapper';
 
 const PostInput = () => {
   const dispatch=useDispatch();
-  const token=useSelector((state)=>state.token);
+  const axiosPrivate=useAxiosPrivate();
   const currentUser=useSelector((state)=>state.currentUser);
   const posts=useSelector(state=>state.posts);
 
@@ -47,14 +47,10 @@ const PostInput = () => {
       return;
     }
     try {
-      const res = await axios.post('http://localhost:5000/api/posts',{
+      const res = await axiosPrivate.post('/posts',{
         image:image,
         creatorId:currentUser._id,
         desc:desc,
-      }, {
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
       });
 
       const mergedPosts=[res.data,...posts];

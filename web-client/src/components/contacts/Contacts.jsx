@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import styles from './Contacts.module.scss'
 import FollowUser from '../action buttons/FollowUser'
 import { useSelector } from 'react-redux'
-import axios from 'axios'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { CircularProgress } from '@mui/material'
 import WigetWrapper from '../styled Components/wiget wrapper/WegetWrapper'
 import NoProfilePic from '../../assets/account.png'
 const Contacts = () => {
-    const theme=useSelector((state)=>state.theme);
+    const axiosPrivate=useAxiosPrivate();
     const token=useSelector((state)=>state.token);
     const currentUser=useSelector((state)=>state.currentUser);
 
@@ -21,11 +21,7 @@ const Contacts = () => {
 
     const followingUsers=async()=>{
         try {
-            const res = await axios.get(`http://localhost:5000/api/users/following/${currentUser._id}?page=${pageNo}&limit=${limit}`, {
-              headers: {
-                Authorization: 'Bearer ' + token
-              },
-            })
+            const res = await axiosPrivate.get(`/users/following/${currentUser._id}?page=${pageNo}&limit=${limit}`)
             const mergedUsers=[...following,...res.data];
             setFollowing(mergedUsers);
           } catch (error) {

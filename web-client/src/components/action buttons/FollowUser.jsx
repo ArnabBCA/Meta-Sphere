@@ -1,20 +1,17 @@
 import React from 'react'
-import axios from 'axios'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import { Button } from '@mui/material'
 import { useDispatch,useSelector } from 'react-redux'
 import { updateCurrentUser,openSnackbar } from '../../state'
 
 const FollowUser = ({userId,currentUser,token}) => {
   const dispatch = useDispatch();
+  const axiosPrivate=useAxiosPrivate();
   const theme=useSelector((state)=>state.theme);
   const handelFollow=async()=>{
     try {
-      const res = await axios.put(`http://localhost:5000/api/users/${userId}`, {
+      const res = await axiosPrivate.put(`/users/${userId}`, {
       userId: currentUser._id,
-    }, {
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
     });
       dispatch(updateCurrentUser({currentUser:res.data,}));
 

@@ -1,20 +1,17 @@
 import React from 'react'
-import axios from '../../../api/axios'
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch } from 'react-redux';
 import { setPost,openSnackbar } from '../../../state';
 import StyledIconButton from '../../styled Components/CustomIconButton';
 
-const PostLike = ({post,currentUser,token}) => {
+const PostLike = ({post,currentUser}) => {
     const dispatch=useDispatch();
+    const axiosPrivate = useAxiosPrivate();
     const handleLike=async()=>{
       try {
-        const res = await axios.put(`/posts/${post._id}/like`, {
+        const res = await axiosPrivate.put(`/posts/${post._id}/like`, {
           userId: currentUser._id,
-        }, {
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
         });
         dispatch(setPost({post:res.data}));
       } catch (error) {

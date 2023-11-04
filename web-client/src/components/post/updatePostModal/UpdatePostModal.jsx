@@ -5,13 +5,14 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import PreviewImage from '../../styled Components/PreviewImage'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useSelector,useDispatch } from 'react-redux';
-import axios from 'axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { openSnackbar, setPost } from '../../../state';
 import ModalWrapper from '../../styled Components/modal wrapper/ModalWrapper';
 
-const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser, token }) => {
+const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser}) => {
 
   const dispatch=useDispatch();
+  const axiosPrivate=useAxiosPrivate();
   const theme=useSelector((state)=>state.theme);
 
   const [postDesc, setPostDesc] = useState(post.desc || '');
@@ -22,14 +23,10 @@ const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser, token }) => {
       try {
         if((!postDesc || postDesc===post.desc)  && !base64Image) return;
 
-        const res = await axios.patch(`http://localhost:5000/api/posts/${post._id}`, {
+        const res = await axiosPrivate.patch(`/posts/${post._id}`, {
           userId:currentUser._id,
           ...(postDesc && { desc: postDesc }),
           ...(base64Image && { image: base64Image }),
-        }, {
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
         });
         dispatch(setPost({post:res.data}));
 

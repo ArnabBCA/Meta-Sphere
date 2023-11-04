@@ -5,7 +5,7 @@ import NoprofilePic from '../../../assets/account.png';
 
 import StoriesSliderModal from '../storiesSliderModal/StoriesSliderModal';
 
-const Story = ({story,currentUser,token,newStoryCreated}) => {
+const Story = ({story,currentUser,newStoryCreated}) => {
     const [openStoriesSliderModal,setOpenStoriesSliderModal]=useState(false);
     const [allSlidesSeen,setAllSlidesSeen]=useState(false);
 
@@ -26,7 +26,7 @@ const Story = ({story,currentUser,token,newStoryCreated}) => {
       </div>
       <span className='secondaryText'>@{story.userName}</span>
     </div>
-    {openStoriesSliderModal && <StoriesSliderModal setAllSlidesSeen={setAllSlidesSeen} story={story} setOpenStoriesSliderModal={setOpenStoriesSliderModal} currentUser={currentUser} token={token}/>}
+    {openStoriesSliderModal && <StoriesSliderModal setAllSlidesSeen={setAllSlidesSeen} story={story} setOpenStoriesSliderModal={setOpenStoriesSliderModal} currentUser={currentUser}/>}
     </>
   )
 }

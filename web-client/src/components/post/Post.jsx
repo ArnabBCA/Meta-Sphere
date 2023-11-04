@@ -20,7 +20,6 @@ const HomeCenterFeed = ({ post, postSection }) => {
   if (!post) return null;
 
   const theme=useSelector((state)=>state.theme);
-  const token=useSelector((state)=>state.token);
   const currentUser=useSelector((state)=>state.currentUser);
 
   const [shareOpen, setShareOpen] = useState(false);
@@ -48,9 +47,9 @@ const HomeCenterFeed = ({ post, postSection }) => {
           </div>
         </div>
         <div className={styles.postActionsButtons}>
-          {post.creatorId === currentUser._id && <PostEdit post={post} currentUser={currentUser} token={token}/>}  {/* for edit */}
-          {post.creatorId === currentUser._id && <PostDelete post={post} currentUser={currentUser} token={token}/>} {/* for delete */}
-          {post.creatorId != currentUser._id && <FollowUser userId={post.creatorId} currentUser={currentUser} token={token}/>}  {/* for follow */}
+          {post.creatorId === currentUser._id && <PostEdit post={post} currentUser={currentUser}/>}  {/* for edit */}
+          {post.creatorId === currentUser._id && <PostDelete post={post} currentUser={currentUser}/>} {/* for delete */}
+          {post.creatorId != currentUser._id && <FollowUser userId={post.creatorId} currentUser={currentUser}/>}  {/* for follow */}
         </div>
       </div>
       {post.desc && <span className={`${styles.postDesc} primaryText`}>{post.desc}</span>}
@@ -58,7 +57,7 @@ const HomeCenterFeed = ({ post, postSection }) => {
       <div className={styles.postLikeOptions}>
         <div className={styles.postLikeBox}>
           <div className={styles.option}>
-            <PostLike post={post} currentUser={currentUser} token={token}/>   {/* for like */}
+            <PostLike post={post} currentUser={currentUser}/>   {/* for like */}
             <span>{post.likes.length}</span>
           </div>
           <div className={styles.option}>

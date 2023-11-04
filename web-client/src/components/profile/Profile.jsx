@@ -9,30 +9,24 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 
 import { useSelector,useDispatch } from 'react-redux';
-import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import { updateCurrentUser,openSnackbar } from '../../state';
 import StyledIconButton from '../styled Components/CustomIconButton';
 import WigetWrapper from '../styled Components/wiget wrapper/WegetWrapper';
 
-import useRefreshToken from '../../hooks/useRefreshToken';
-
 const Profile = ({profileModal, setProfileModal}) => {
   const theme=useSelector((state)=>state.theme);
-  const refreshToken=useRefreshToken();
 
   const dispatch = useDispatch();
+  const axiosPrivate=useAxiosPrivate();
   
   const token=useSelector((state)=>state.token);
   const currentUser=useSelector((state)=>state.currentUser);
 
   const getCurrentUser = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/users/${currentUser._id}`, {
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      })
+      const res = await axiosPrivate.get(`/users/${currentUser._id}`)
       dispatch(updateCurrentUser({
         currentUser:res.data,
       }));
@@ -97,7 +91,7 @@ const Profile = ({profileModal, setProfileModal}) => {
                 </div>
             </div>
             <div className={"horizontalHr"+theme}></div>
-            <span onClick={()=>refreshToken()} className={styles.viewProfile}>View Profile</span>
+            <span className={styles.viewProfile}>View Profile</span>
     </WigetWrapper>
   )
 }

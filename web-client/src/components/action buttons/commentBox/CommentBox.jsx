@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from './CommentBox.module.scss'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import SendIcon from '@mui/icons-material/Send';
-import axios from 'axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useSelector,useDispatch } from 'react-redux';
 import { setPost,openSnackbar } from '../../../state';
 import useMoment from '../../../utils/useMoment'
@@ -10,9 +10,7 @@ import StyledIconButton from '../../styled Components/CustomIconButton';
 
 const CommentBox = ({post,commentCount}) => {
     const dispatch=useDispatch();
-    const theme=useSelector((state)=>state.theme);
-
-    const token=useSelector((state)=>state.token);
+    const axiosPrivate=useAxiosPrivate();
     const currentUser=useSelector((state)=>state.currentUser);
 
     const [comment,setComment]=useState('');
@@ -30,13 +28,9 @@ const CommentBox = ({post,commentCount}) => {
     const sendComment=async()=>{
         if(!comment) return;
         try {
-            const res=await axios.put(`http://localhost:5000/api/posts/${post._id}/comment`,{
+            const res=await axiosPrivate.put(`/posts/${post._id}/comment`,{
                 userId: currentUser._id,
                 text:comment,
-            }, {
-                headers: {
-                Authorization: 'Bearer ' + token
-                },
             });
             dispatch(setPost({post:res.data}));
 

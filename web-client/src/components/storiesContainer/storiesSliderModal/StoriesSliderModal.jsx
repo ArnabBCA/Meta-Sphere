@@ -2,24 +2,20 @@ import React, { useEffect, useState } from 'react'
 import styles from './StoriesSliderModal.module.scss'
 
 import Stories from 'react-insta-stories';
-import axios from 'axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 
 import Slides from './Slides';
 
-const StoriesSliderModal = ({ story,setAllSlidesSeen, setOpenStoriesSliderModal, currentUser, token }) => {
-
+const StoriesSliderModal = ({ story,setAllSlidesSeen, setOpenStoriesSliderModal, currentUser }) => {
+  const axiosPrivate=useAxiosPrivate();
   const [slideId,setSlideId]=useState(null);
   const hadleSeenStory=async()=>{
     if(story.storySlides[story.storySlides.length-1]._id===slideId){
       setAllSlidesSeen(true);
     }
     try{
-        const res=await axios.put(`http://localhost:5000/api/stories/${slideId}/seen`, {
+        const res=await axiosPrivate.put(`/stories/${slideId}/seen`, {
           userId: currentUser._id,
-        }, {
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
         });
       } catch (error) {
         console.log(error);

@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import axios from 'axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch } from 'react-redux';
 import { deletePost,openSnackbar } from '../../../state';
 import StyledIconButton from '../../styled Components/CustomIconButton';
 //import CustomConfirmModal from '../../../../../UI elements/CustomConfirmModal';
 
-const PostDelete = ({post,currentUser,token }) => {
+const PostDelete = ({post,currentUser}) => {
     const dispatch=useDispatch();
+    const axiosPrivate=useAxiosPrivate();
     const [openConfirmModal,setOpenConfirmModal]=useState(false);
     const [confirmation,setConfirmation]=useState(false);
 
@@ -23,10 +24,7 @@ const PostDelete = ({post,currentUser,token }) => {
     }
     const handleDelete=async()=>{
       try {
-        const res = await axios.delete(`http://localhost:5000/api/posts/${post._id}`, {
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
+        const res = await axiosPrivate.delete(`/posts/${post._id}`, {
           data: {
             userId: currentUser._id,
           },
