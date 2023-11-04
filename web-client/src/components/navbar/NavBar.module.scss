@@ -96,8 +96,14 @@
                     object-fit: cover;
                 }
                 .userInfo{
+                    width: 100px;
                     display: flex;
                     flex-direction: column;
+                    span{
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        width: 100%;
+                    }
                     span:nth-of-type(1){
                         font-size: 14px;
                         font-weight: 500;
