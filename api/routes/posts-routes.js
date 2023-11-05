@@ -16,6 +16,6 @@ router.delete('/:id',postsController.deletePost);
 router.put('/:id/like',postsController.likePost);
 router.put('/:id/comment',postsController.commentPost);
 router.get('/user/:id',postsController.getPostsByUserId);
-router.get('/timeline/:id/all',postsController.timelinePosts);
+router.post('/timeline/:id/all',postsController.timelinePosts);
 
 module.exports = router;
