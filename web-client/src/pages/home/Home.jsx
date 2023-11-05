@@ -26,6 +26,7 @@ const Home = () => {
     
     const {_id}=useSelector(state=>state.currentUser);
     const posts=useSelector(state=>state.posts);
+    const [postsIds,setPostsIds]=useState([]);
 
     const [hasMorePosts, setHasMorePosts] = useState(true);
     const limit=2;
@@ -33,11 +34,14 @@ const Home = () => {
     const getTimelinePosts = async () => {
         let pageNo=Math.ceil(posts.length/limit)+1;
         try {
-            const res=await axiosPrivate.get(`/posts/timeline/${_id}/all?page=${pageNo}&limit=${limit}`);
+            const res=await axiosPrivate.post(`/posts/timeline/${_id}/all?page=${pageNo}&limit=${limit}`,{
+              postsIds:postsIds,
+            });
             const mergedPosts=[...posts,...res.data];
             dispatch(setPosts({
                 posts:mergedPosts
             }));
+            setPostsIds(mergedPosts.map(post=>post._id));
             if(res.data.length===0){
                 setHasMorePosts(false);
             }
