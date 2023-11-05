@@ -1,21 +1,21 @@
 .home{
     max-width: 1350px; 
     margin: 0 auto;
-    padding: 0px 15px 0px 15px;
+    padding: 0px 15px 15px 15px;
     display: flex;
     gap: 30px;
     .homeContainer{
         display: flex;
         flex-direction: column;
         gap: 30px;
+        overflow-y: scroll;
+        height: calc(100vh - 90.8px);
     }
     .left{
         flex: 2;
     }
     .center {
         flex: 3;
-        overflow-y: scroll;
-        height: calc(100vh - 75.8px);
     }
     
     .right{
@@ -24,7 +24,7 @@
 }
 @media only screen and (max-width: 600px) {
     .home{
-        .center{
+        .homeContainer{
             height: calc(100vh - 129.8px);
         }
     }
