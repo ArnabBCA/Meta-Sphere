@@ -265,9 +265,7 @@ const timelinePosts = async (req, res, next) => {
     }
 };*/
 
-
 const timelinePosts = async (req, res, next) => {
-    let posts;
     try {
         const page=req.query.page;
         const limit=req.query.limit;
@@ -275,11 +273,14 @@ const timelinePosts = async (req, res, next) => {
         const startIndex=(page-1)*limit;
         const endIndex=page*limit;
 
+        const postsIds = req.body.postsIds;     //get all the postsIds that are already fetched
+
         const currentUser=await User.findById(req.params.id);
 
         //Logged User Posts
-        posts = await Post.find({ creatorId: req.params.id });
-        const currentUserPosts = posts.map(post => ({
+        const posts = await Post.find({ creatorId: req.params.id });
+        const currentUserPosts = posts
+        .map(post => ({
             ...post.toObject(),
             userName: currentUser.userName,
             fullName: currentUser.fullName,
@@ -292,7 +293,6 @@ const timelinePosts = async (req, res, next) => {
             currentUser.following.map(async(followingId) => {
                 const followingUser = await User.findById(followingId);
                 const followingUserPosts = await Post.find({ creatorId: followingId });
-
                 return followingUserPosts.map(post => ({
                     ...post.toObject(),
                     userName: followingUser.userName,
@@ -322,14 +322,18 @@ const timelinePosts = async (req, res, next) => {
             };
         }));
 
-        //Sorting the Merged Posts by createdAt (lastest to oldest)
-        const timelinePosts = mergedTimelinePosts.sort((a, b) => {
+        let postsMoveToFront = mergedTimelinePosts.filter((post) => postsIds.includes(post._id.toString()));
+        let postsMoveToBack = mergedTimelinePosts.filter((post) => !postsIds.includes(post._id.toString()));
+        
+        //Sorting the postsMoveToBack Posts by createdAt (lastest to oldest)
+        postsMoveToBack= postsMoveToBack.sort((a, b) => {
             return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        const resultPosts=timelinePosts.slice(startIndex,endIndex);
+        mergedTimelinePosts = postsMoveToFront.concat(postsMoveToBack);
 
-        res.status(200).json(resultPosts);
+        res.status(200).json(mergedTimelinePosts.slice(startIndex,endIndex));
     } catch (err) {
+        console.log(err);
         const error = new HttpError('Fetching timeline posts failed, please try again later.', 500);
         return next(error);
     }
