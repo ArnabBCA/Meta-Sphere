@@ -18,6 +18,7 @@ const StoriesContainer = () => {
   const [openCreateStoryModal,setOpenCreateStoryModal]=useState(false);
   const [newStoryCreated,setNewStoryCreated]=useState(false);
   const [hasMoreStories, setHasMoreStories] = useState(true);
+  const [storiesIds,setStoriesIds]=useState([]);
 
   const currentUser=useSelector((state)=>state.currentUser);
   const token=useSelector((state)=>state.token);
@@ -28,11 +29,14 @@ const StoriesContainer = () => {
   const getTimelineStories = async () => {
     let pageNo=Math.ceil(stories.length/limit)+1;
     try {
-        const res=await axiosPrivate.get(`/stories/timeline/${currentUser._id}/all?page=${pageNo}&limit=${limit}`);
+        const res=await axiosPrivate.post(`/stories/timeline/${currentUser._id}/all?page=${pageNo}&limit=${limit}`,{
+          storiesIds:storiesIds
+        });
         const mergedStories=[...stories,...res.data];
         dispatch(setStories({
             stories:mergedStories
         }));
+        setStoriesIds(mergedStories.map(story=>story.userId));
         if(res.data.length===0){
             setHasMoreStories(false);
         }
