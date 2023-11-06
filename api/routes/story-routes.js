@@ -9,7 +9,7 @@ const router = express.Router();
 //router.use(checkAuth);
 
 router.post('/',[check('desc').isLength({max:50})],storyControllers.createStory);
-router.get('/timeline/:id/all',storyControllers.timelineStories);
+router.post('/timeline/:id/all',storyControllers.timelineStories);
 router.put('/:id/seen',storyControllers.seenStory);
 
 module.exports = router;
