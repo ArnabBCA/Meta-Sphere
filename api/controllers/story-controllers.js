@@ -71,6 +71,8 @@ const timelineStories = async (req, res, next) => {
         const startIndex=(page-1)*limit;
         const endIndex=page*limit;
 
+        const storiesIds=req.body.storiesIds; //array of storiesIds of already fetched stories
+
         const currentUser=await User.findById(req.params.id);
 
         //Logged User Stories
@@ -108,21 +110,18 @@ const timelineStories = async (req, res, next) => {
         );
         followingUsersStory=followingUsersStory.filter(user => user.storySlides.length > 0)
 
-        /*//Sorting the Merged Posts by createdAt (lastest to oldest)
-        followingUsersStory.sort((a, b) => {
-            const lastStoryA = a.stories[a.storySlides.length - 1];
-            const lastStoryB = b.stories[b.storySlides.length - 1];
-          
-            if (lastStoryA.createdAt > lastStoryB.createdAt) {
-              return -1; // Put A before B
-            } else if (lastStoryA.createdAt < lastStoryB.createdAt) {
-              return 1; // Put B before A
-            }
-            return 0; // Keep the order unchanged
-        });
+        let storiesMoveToFront = followingUsersStory.filter((story) => storiesIds.includes(story.userId));
+        let storiesMoveToBack = followingUsersStory.filter((story) => !storiesIds.includes(story.userId));
 
-        //Merging Logged User and Following Users Stories*/
-        let mergedTimelineStories = currentUserStories.concat(...followingUsersStory);
+        //Sorting the storiesMoveToBack users stories lastest to oldest
+        storiesMoveToBack=storiesMoveToBack.sort((a, b) => {
+            const lastStoryA = a.storySlides[a.storySlides.length - 1];
+            const lastStoryB = b.storySlides[b.storySlides.length - 1];
+            return lastStoryB.createdAt - lastStoryA.createdAt;
+        });
+        
+        //Merging Logged User and Following Users Stories
+        let mergedTimelineStories = currentUserStories.concat(...storiesMoveToFront).concat(...storiesMoveToBack);
         
         res.status(200).json(mergedTimelineStories.slice(startIndex,endIndex));
     } catch (err) {
