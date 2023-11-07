@@ -9,6 +9,7 @@ import PostInput from '../../components/post input/PostInput'
 import StoriesContainer from '../../components/storiesContainer/StoriesContainer'
 import SuggestedUsers from '../../components/suggestedUsers/SuggestedUsers'
 import Post from '../../components/post/Post'
+import ReachedEnd from '../../components/styled Components/reachedEnd/ReachedEnd';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { setPosts,openSnackbar } from '../../state'
@@ -78,7 +79,7 @@ const Home = () => {
             next={fetchMoreData}
             hasMore={hasMorePosts}
             loader={<CircularProgress/>}
-            endMessage={<h4>You have reached the end</h4>}
+            endMessage={<ReachedEnd/>}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center',gap:'30px' }}
             scrollableTarget="scrollCenterDiv"
           >
