@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './SuggestedUsers.module.scss'
 
 import NoProfilePic from '../../assets/account.png'
+import { CircularProgress } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -27,6 +28,9 @@ const SuggestedUsers = () => {
             })
             const mergedUsers=[...suggestedUsers,...res.data];
             setSuggestedUsers(mergedUsers);
+            if(res.data.length===0){
+                setHasMoreUsers(false);
+            }
           } catch (error) {
             console.log(error);
         }
@@ -48,8 +52,7 @@ const SuggestedUsers = () => {
             dataLength={suggestedUsers.length}
             next={fetchMoreData}
             hasMore={hasMoreUsers}
-            //loader={<CircularProgress/>}
-            //endMessage={<h4>You have reached the end</h4>}
+            loader={<CircularProgress/>}
             style={{ display: 'flex', alignItems: 'center', gap:'20px',height:"100%"}}
             scrollableTarget="scrollableSuggestedUserDiv"
         >
