@@ -1,0 +1,22 @@
+.sponsorCoontainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    span{
+        font-size: 16px;
+    }
+    img{
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+    .actionButtons{
+        display: flex;
+        justify-content: space-between;
+        .like{
+            display: flex;
+            gap: 5px;
+        }
+    }
+}

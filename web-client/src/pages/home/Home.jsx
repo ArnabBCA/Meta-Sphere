@@ -17,6 +17,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Sponsor from '../../components/sponsor/Sponsor';
 
 const Home = () => {
     const dispatch=useDispatch();
@@ -88,6 +89,7 @@ const Home = () => {
         </div>
         {medium && 
           <div className={`${styles.right} ${styles.homeContainer}`}>
+            <Sponsor/>
             <SuggestedUsers/>
           </div>
         }
