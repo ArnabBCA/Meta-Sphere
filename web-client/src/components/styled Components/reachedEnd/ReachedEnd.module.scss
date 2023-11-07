@@ -1,0 +1,18 @@
+.reachedEndContainer{
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    img{
+        height: 100px;
+        width: 100px;
+    }
+    span{
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+}
