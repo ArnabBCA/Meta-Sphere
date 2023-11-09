@@ -42,7 +42,7 @@ const PostInput = () => {
   }
 
   const handleSubmit=async()=>{
-    if(!image && !desc){
+    if(!image && !desc.trim()){
       dispatch(openSnackbar({message:"Post cannot be Empty",severity:"warning"}));
       return;
     }
@@ -50,7 +50,7 @@ const PostInput = () => {
       const res = await axiosPrivate.post('/posts',{
         image:image,
         creatorId:currentUser._id,
-        desc:desc,
+        desc:desc.trim(),
       });
 
       const mergedPosts=[res.data,...posts];
