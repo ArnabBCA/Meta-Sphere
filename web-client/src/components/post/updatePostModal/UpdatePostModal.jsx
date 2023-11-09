@@ -15,7 +15,7 @@ const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser}) => {
   const axiosPrivate=useAxiosPrivate();
   const theme=useSelector((state)=>state.theme);
 
-  const [postDesc, setPostDesc] = useState(post.desc || '');
+  const [postDesc, setPostDesc] = useState((post.desc || '').trim());
   const [previewImage,setPreviewImage]=useState('');
   const [base64Image, setBase64Image] = useState(null);
 
