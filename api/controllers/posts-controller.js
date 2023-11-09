@@ -97,13 +97,14 @@ const updatePost=async(req,res,next)=>{
                 return {
                     ...comment.toObject(),
                     profilePicture: user.profilePicture.url,
-                    userName: user.username,
+                    username: user.userName,
                  };
             }));
             const postCreator=await User.findById(post.creatorId);
             const updatePost = {
                 ...findUpdatedPost.toObject(),
-                username: postCreator.username,
+                userName: postCreator.userName,
+                fullName: postCreator.fullName,
                 profilePicture: postCreator.profilePicture.url,
                 location: postCreator.location,
                 comments: updatedComments,
@@ -120,6 +121,7 @@ const updatePost=async(req,res,next)=>{
         return next(error);
     }
 };
+
 //  delete a post
 const deletePost=async(req,res,next)=>{
     let post;
@@ -146,7 +148,6 @@ const deletePost=async(req,res,next)=>{
     }
 };
 
-
 // Like/Dislike a post
 const likePost=async(req,res,next)=>{
     try {
@@ -168,14 +169,15 @@ const likePost=async(req,res,next)=>{
             return {
                 ...comment.toObject(),
                 profilePicture: user.profilePicture.url,
-                userName: user.username,
+                userName: user.userName,
             };
         }));
 
         const postCreator=await User.findById(post.creatorId);
         const updatePost = {
             ...findUpdatedPost.toObject(),
-            username: postCreator.username,
+            userName: postCreator.userName,
+            fullName: postCreator.fullName,
             profilePicture: postCreator.profilePicture.url,
             location: postCreator.location,
             comments: updatedComments,
@@ -188,7 +190,6 @@ const likePost=async(req,res,next)=>{
 };
 
 // Comment on a post
-
 const commentPost=async(req,res,next)=>{
     let post;
     try {
@@ -213,14 +214,15 @@ const commentPost=async(req,res,next)=>{
             return {
                 ...comment.toObject(),
                 profilePicture: user.profilePicture.url,
-                userName: user.username,
+                userName: user.userName,
             };
         }));
 
         const postCreator=await User.findById(post.creatorId);
         const updatePost = {
             ...findUpdatedPost.toObject(),
-            username: postCreator.username,
+            userName: postCreator.userName,
+            fullName: postCreator.fullName,
             profilePicture: postCreator.profilePicture.url,
             location: postCreator.location,
             comments: updatedComments,
@@ -247,24 +249,7 @@ const getPostsByUserId=async(req,res,next)=>{
     }
 };
 
-/*// get timeline posts
-const timelinePosts = async (req, res, next) => {
-    let posts;
-    try {
-        const currentUser=await User.findById(req.params.id);
-        posts = await Post.find({ creatorId: req.params.id });
-        const followingUsersPost = await Promise.all(
-            currentUser.following.map((followingId) => {
-                return Post.find({ creatorId: followingId });
-            })
-        );
-        res.status(200).json(posts.concat(...followingUsersPost));
-    } catch (err) {
-        const error = new HttpError('Fetching timeline posts failed, please try again later.', 500);
-        return next(error);
-    }
-};*/
-
+// get timeline posts
 const timelinePosts = async (req, res, next) => {
     try {
         const page=req.query.page;
@@ -348,105 +333,8 @@ exports.likePost = likePost;
 exports.commentPost = commentPost;
 exports.getPostsByUserId = getPostsByUserId;
 exports.timelinePosts = timelinePosts;
-/*const getPostById=async(req,res,next)=>{
-    const postId = req.params.pid;
-    let post;
-    try {
-        post= await Post.findById(postId);
-    } catch (err) {
-        const error = new HttpError('Something went wrong, could not find a post.',500);
-        return next(error);
-    }
-    if(!post){
-        const error= new HttpError('Could not find a post for the provided id.',404);
-        return next(error);
-    }
-    res.json({post});
-};*/
-
-/*const getPostsByUserId=async(req,res,next)=>{
-    const userId = req.params.uid;
-    let posts;
-    try {
-        posts=Post.find({creatorId:userId});
-    } catch (err) {
-        const error= new HttpError('Fetching posts failed,please try again later.',500);
-        return next(error);
-    }
-    
-    if(!posts || posts.length === 0){
-        return next(new HttpError('Could not find posts for the provided user id.',404));
-    }
-    res.json({posts});
-};*/
 
 
-/*const createPost=async(req,res,next)=>{
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        throw new HttpError('Invalid inputs passed,please check your data.',422);
-    }
-    const {desc,image,creatorId,likes,comments} = req.body;
-    const createdPost = new Post({
-        creatorId,
-        desc,
-        image,
-        likes,
-        comments,
-    });
-    try {
-        await createdPost.save();
-    } catch (err) {
-        const error = new HttpError('Creating post failed,please try again.',500);
-        return next(error);
-    }
-    res.status(201).json({post:createdPost});
-};*/
 
-/*const updatePost=async(req,res,next)=>{
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        throw new HttpError('Invalid inputs passed,please check your data.',422);
-    }
-    const {desc,image} = req.body;
-    const postId = req.params.pid;
 
-    let post;
-    try {
-        post=await Post.findById(postId);
-    } catch (err) {
-        const error = new HttpError('Something went wrong, could not update post.',500);
-        return next(error);
-    }
-
-    post.desc = desc;
-    post.image = image;
-
-    try {
-        await post.save();
-    } catch (err) {
-        const error = new HttpError('Something went wrong, could not update post.',500);
-        return next(error);
-    }
-
-    res.status(200).json({post:post.toObject({getters:true})});
-};*/
-
-/*const deletePost=async(req,res,next)=>{
-    const postId = req.params.pid;
-    let post;
-    try {
-        post=Post.findById(postId);
-    } catch (err) {
-        const error= new HttpError('Something went wrong, could not delete post.',500);
-        return next(error);
-    }
-    try{
-        await post.remove();
-    }catch(err){
-        const error= new HttpError('Something went wrong, could not delete post.',500);
-        return next(error);
-    }
-    res.status(200).json({message:'Deleted post.'});
-};*/
 
