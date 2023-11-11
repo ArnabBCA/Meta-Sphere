@@ -8,12 +8,14 @@ import { useSelector,useDispatch } from 'react-redux';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { openSnackbar, setPost } from '../../../state';
 import ModalWrapper from '../../styled Components/modal wrapper/ModalWrapper';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser}) => {
 
   const dispatch=useDispatch();
   const axiosPrivate=useAxiosPrivate();
   const theme=useSelector((state)=>state.theme);
+  const [loading,setLoading]=useState(false);
 
   const [postDesc, setPostDesc] = useState((post.desc || '').trim());
   const [previewImage,setPreviewImage]=useState('');
@@ -22,17 +24,19 @@ const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser}) => {
     const updatePost=async()=>{
       try {
         if((!postDesc || postDesc===post.desc)  && !base64Image) return;
-
+        setLoading(true);
         const res = await axiosPrivate.patch(`/posts/${post._id}`, {
           userId:currentUser._id,
           ...(postDesc && { desc: postDesc }),
           ...(base64Image && { image: base64Image }),
         });
         dispatch(setPost({post:res.data}));
+        setLoading(false);
 
         setOpenUpdateModal(false);
         dispatch(openSnackbar({message:"Post Updated Successfully",severity:"success"}));
       } catch (error) {
+        setLoading(false);
         console.log(error);
         dispatch(openSnackbar({message:"Failed to Update Post",severity:"error"}));
       }
@@ -59,7 +63,7 @@ const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser}) => {
         </label>
         <div className={styles.updateActions}>
             <button type='button' onClick={()=>setOpenUpdateModal(false)}>Cancel</button>
-            <button type='button'onClick={updatePost}>Update</button>
+            <button type='button'onClick={updatePost}>{loading ? <CircularProgress size={20}/>: "Update"}</button>
         </div>
     </ModalWrapper>
   );
