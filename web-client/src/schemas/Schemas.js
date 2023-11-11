@@ -4,15 +4,19 @@ const validFileExtensions = { file: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp']
 function isValidFileType(fileName, fileType) {
   return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
 }
+export const initialValues={
+  userName:"",
+  fullName:"",
+  email:"",
+  password:"",
+  confirmPassword:"",
+}
 export const registerSchema=Yup.object({
     userName:Yup.string().min(2).max(25).required("User Name cannot be empty"),
     fullName:Yup.string().min(2).max(25).required("Full Name cannot be empty"),
     email:Yup.string().email().required("Email cannot be empty"),
     password:Yup.string().min(6).required("Password cannot be empty"),
     confirmPassword:Yup.string().required("Confirm Password cannot be empty").oneOf([Yup.ref('password'),null],"Pasword must match"),
-    /*file:Yup.mixed().nullable().required("Profile picture cannot be empty")
-    .test("is-valid-type", "Unsupported file type",value => isValidFileType(value && value.name.toLowerCase(), "file"))
-    .test("is-valid-size", "Max allowed size is 2Mb",value => value && value.size <= MAX_FILE_SIZE)*/
 });
 
 export const loginSchema=Yup.object({

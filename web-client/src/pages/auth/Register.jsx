@@ -9,6 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { openSnackbar } from '../../state';
 import { registerSchema } from '../../schemas/Schemas';
+import { initialValues } from '../../schemas/Schemas';
 
 import colors from './material-colors.json';
 import VerifyOTP from './VerifyOTP';
@@ -19,14 +20,6 @@ const Register = () => {
     const [image, setImage] = useState(null);
     const [verifyPage,setVerifyPage]=useState(false);
     const { page } = useParams();
-
-    const initialValues={
-        userName:"",
-        fullName:"",
-        email:"",
-        password:"",
-        confirmPassword:"",
-    }
 
     function generateAvatar(username) {
         const colorNames = Object.keys(colors);

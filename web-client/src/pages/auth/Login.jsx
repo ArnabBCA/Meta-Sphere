@@ -9,23 +9,20 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { openSnackbar, setLogin } from '../../state'
 import { loginSchema } from '../../schemas/Schemas'
+import { initialValues } from '../../schemas/Schemas'
 import VerifyOTP from './VerifyOTP'
+
 const Login = () => {
-    const initialValues={
-        email:"",
-        password:"",
-    }
     const { page } = useParams();
     const navigate=useNavigate();
     const dispatch = useDispatch();
     const [verifyPage,setVerifyPage]=useState(false);
     const [loading,setLoading]=useState(false);
 
-    const {values,errors,touched,handleBlur,handleChange,handleSubmit,setFieldValue,resetForm}=useFormik({
+    const {values,errors,touched,handleBlur,handleChange,handleSubmit,resetForm}=useFormik({
         initialValues:initialValues,
         validationSchema:loginSchema,
         onSubmit : async (values)=>{
-            //resetForm();
             try {
                 setLoading(true);
                 axios.defaults.withCredentials = true;
