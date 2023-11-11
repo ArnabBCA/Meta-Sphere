@@ -1,27 +1,19 @@
 import React, { useState } from 'react'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+
 import DeleteIcon from '@mui/icons-material/Delete';
+
 import { useDispatch } from 'react-redux';
 import { deletePost,openSnackbar } from '../../../state';
-import StyledIconButton from '../../styled Components/CustomIconButton';
-//import CustomConfirmModal from '../../../../../UI elements/CustomConfirmModal';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+
+import StyledIconButton from '../../styled Components/CustomIconButton'
+import DeletePostModal from '../../post/deletePostModal/DeletePostModal';
 
 const PostDelete = ({post,currentUser}) => {
     const dispatch=useDispatch();
     const axiosPrivate=useAxiosPrivate();
-    const [openConfirmModal,setOpenConfirmModal]=useState(false);
-    const [confirmation,setConfirmation]=useState(false);
+    const [openDeletePostModal,setOpenDeletePostModal]=useState(false);
 
-    if(openConfirmModal){
-      document.body.style.overflow="hidden";
-    }
-    else{
-      document.body.style.overflow="auto";
-    }
-
-    const confirmDelete=()=>{
-      setOpenConfirmModal(true);
-    }
     const handleDelete=async()=>{
       try {
         const res = await axiosPrivate.delete(`/posts/${post._id}`, {
@@ -37,13 +29,10 @@ const PostDelete = ({post,currentUser}) => {
         dispatch(openSnackbar({message:"Failed to Delete Post",severity:"error"}));
       }
     }
-    if(confirmation){
-      handleDelete();
-    }
   return (
     <>
-      <StyledIconButton onClick={confirmDelete} icon={<DeleteIcon style={{color:"orange"}}/>}/>
-      {/*openConfirmModal && <CustomConfirmModal openConfirmModal={openConfirmModal} setConfirmation={setConfirmation} setOpenConfirmModal={setOpenConfirmModal}/>*/}
+      <StyledIconButton onClick={()=>setOpenDeletePostModal(true)} icon={<DeleteIcon style={{color:"orange"}}/>}/>
+      {openDeletePostModal && <DeletePostModal setOpenDeletePostModal={setOpenDeletePostModal} handleDelete={handleDelete}/>}
     </>
   )
 }
