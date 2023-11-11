@@ -9,6 +9,7 @@ import NoProfilePic from '../../assets/account.png';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useSelector,useDispatch } from 'react-redux';
 import { Button } from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { setPosts,openSnackbar } from '../../state';
 import StyledInputButton from '../styled Components/CustomInputButton';
@@ -22,6 +23,7 @@ const PostInput = () => {
   const posts=useSelector(state=>state.posts);
 
   const theme=useSelector((state)=>state.theme);
+  const [loading,setLoading]=useState(false);
   const [previewImage,setPreviewImage]=useState('');
   const [base64Image,setBase64Image]=useState('');
   const [desc,setdesc]=useState('');
@@ -32,6 +34,7 @@ const PostInput = () => {
         dispatch(openSnackbar({message:"Post cannot be Empty",severity:"warning"}));
         return;
       }
+      setLoading(true);
       const res = await axiosPrivate.post('/posts',{
         image:base64Image,
         creatorId:currentUser._id,
@@ -42,6 +45,7 @@ const PostInput = () => {
       dispatch(setPosts({
         posts:mergedPosts
       }));
+      setLoading(false);
       dispatch(openSnackbar({message:"Post Created",severity:"success"}));
 
       setPreviewImage('');
@@ -49,6 +53,7 @@ const PostInput = () => {
       setdesc('');
     } catch (error) {
       console.log(error);
+      setLoading(false);
       dispatch(openSnackbar({message:"Failed to Create Post",severity:"error"}));
     }
   }
@@ -83,7 +88,7 @@ const PostInput = () => {
             width:'90px',
             fontFamily: 'inherit',
             '&:hover, &.Mui-focusVisible': { backgroundColor: 'aqua' },
-          }}>Post</Button>
+          }}>{loading ? <CircularProgress size={20}/> :"Post"}</Button>
         </div>
       </WigetWrapper>
   )
