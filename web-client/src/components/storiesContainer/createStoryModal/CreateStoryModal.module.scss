@@ -88,6 +88,9 @@
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     button:nth-of-type(1){
         background-color: gray;

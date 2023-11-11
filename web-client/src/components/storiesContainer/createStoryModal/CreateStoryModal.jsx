@@ -11,12 +11,14 @@ import gradients from './gradients.json';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { openSnackbar,setStories } from '../../../state'
 import ModalWrapper from '../../styled Components/modal wrapper/ModalWrapper';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const CreateStoryModal = ({ setOpenCreateStoryModal, story, currentUser, token,setNewStoryCreated,openCreateStoryModal }) => {
   const fileInputRef = useRef(null);
   const dispatch=useDispatch();
   const axiosPrivate=useAxiosPrivate();
   const stories=useSelector((state)=>state.stories);
+  const [loading,setLoading]=useState(false);
 
   const [storyText,setStoryText]=useState('');
   const [currentGradient,setCurrentGradient]=useState(null);
@@ -60,6 +62,7 @@ const CreateStoryModal = ({ setOpenCreateStoryModal, story, currentUser, token,s
 
   const handleStoryPost=async()=>{
     try {
+      setLoading(true);
       const res = await axiosPrivate.post('/stories',{
         image:base64Image,
         creatorId:currentUser._id,
@@ -78,12 +81,14 @@ const CreateStoryModal = ({ setOpenCreateStoryModal, story, currentUser, token,s
             stories:updatedStories
         }));
       }
+      setLoading(false);
       setNewStoryCreated(true);
 
       dispatch(openSnackbar({message:"Story Created Successfully",severity:"success"}));
       setOpenCreateStoryModal(false)
     } catch (error) {
       console.log(error);
+      setLoading(false);
       dispatch(openSnackbar({message:"Failed To Create Story",severity:"error"}));
     }
   }
@@ -122,7 +127,7 @@ const CreateStoryModal = ({ setOpenCreateStoryModal, story, currentUser, token,s
       </svg>
       <div className={styles.updateActions}>
         <button type='button' onClick={()=>setOpenCreateStoryModal(false)}>Cancel</button>
-        <button type='button' onClick={handleStoryPost}>Post</button>
+        <button type='button' onClick={handleStoryPost}>{loading ? <CircularProgress size={20}/>:"Post"}</button>
       </div>
     </ModalWrapper>
   )
