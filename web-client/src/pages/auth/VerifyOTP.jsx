@@ -3,12 +3,16 @@ import styles from './Auth.module.scss';
 
 import { useDispatch } from 'react-redux';
 import { openSnackbar } from '../../state';
+
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const VerifyOTP = ({ email, resetForm ,currentPage }) => {
   const dispatch = useDispatch();
   const navigate=useNavigate();
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState(['', '', '', '']);
 
   // Create refs for each input field
@@ -36,9 +40,11 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
 
   const handleSendEmail = async () => {
     try {
+      setEmailLoading(true);
       const res = await axios.post('http://localhost:5000/api/auth/sendotp', {
         email: 'arnabsonu2@gmail.com',
       });
+      setEmailLoading(false);
       dispatch(openSnackbar({ message: `${res.data.message}`, severity: 'success' }));
     } catch (error) {
       dispatch(openSnackbar({ message: `${error.response.data.message}`, severity: 'error' }));
@@ -48,10 +54,12 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
   const handleVerifyOTP = async () => {
     if (otp.join('').length !== 4) return;
     try {
+      setLoading(true);
       const res = await axios.post('http://localhost:5000/api/auth/verify', {
         email: email,
         otp: otp.join(''),
       });
+      setLoading(false);
       setOtp(['', '', '', '']);
       resetForm();
       if(currentPage==="register"){
@@ -63,6 +71,7 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
       dispatch(openSnackbar({ message: `${res.data.message}`, severity: 'success' }));
     } catch (error) {
       console.log(error);
+      setLoading(false);
       dispatch(openSnackbar({ message: `${error.response.data.message}`, severity: 'error' }));
     }
   };
@@ -83,8 +92,8 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
         ))}
       </div>
       <div className={styles.actionButtons}>
-        <button onClick={handleSendEmail}>Resend</button>
-        <button onClick={handleVerifyOTP}>Verify</button>
+        <button onClick={handleSendEmail}>{emailLoading ? <CircularProgress size={24}/> :"Resend"}</button>
+        <button onClick={handleVerifyOTP}>{loading ? <CircularProgress size={24}/> : "Verify"}</button>
       </div>
       {currentPage === "register"  ? <span>Already have a account? <Link to="/login">Login</Link></span> :<span>Don't have a account? <Link to="/register">Signup</Link></span>}
     </div>

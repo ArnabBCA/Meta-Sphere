@@ -70,8 +70,11 @@
                                 outline: none;
                                 border: none;
                                 cursor: pointer;
-                                font-size: 14px;
+                                font-size: 16px;
                                 color: white;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
                             }
                             button:nth-of-type(1){
                                 background-color: grey;
@@ -127,8 +130,12 @@
                         outline: none;
                         border: none;
                         cursor: pointer;
-                        font-size: 14px;
+                        font-size: 16px;
+                        width: 100%;
                         font-weight: 500;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                 }
             }

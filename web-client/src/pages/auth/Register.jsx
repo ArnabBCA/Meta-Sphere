@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
 import styles from './Auth.module.scss'
+
+import axios from 'axios';
 import { Link,useParams } from 'react-router-dom'
-import colors from './material-colors.json';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
+
 import { openSnackbar } from '../../state';
 import { registerSchema } from '../../schemas/Schemas';
-import axios from 'axios';
+
+import colors from './material-colors.json';
 import VerifyOTP from './VerifyOTP';
+
 const Register = () => {
     const dispatch = useDispatch();
+    const [loading,setLoading]=useState(false);
     const [image, setImage] = useState(null);
     const [verifyPage,setVerifyPage]=useState(false);
     const { page } = useParams();
@@ -69,6 +75,7 @@ const Register = () => {
         validationSchema:registerSchema,
         onSubmit : async (values)=>{
             try{
+                setLoading(true);
                 const res = await axios.post(`http://localhost:5000/api/auth/signup`, {
                     userName:values.userName,
                     fullName:values.fullName,
@@ -76,9 +83,12 @@ const Register = () => {
                     password:values.password,
                     profilePicture:image,
                 });
+                setLoading(false);
                 setVerifyPage(true);
                 dispatch(openSnackbar({message:"Verification Email Sent",severity:"success"}));
             }catch(error){
+                console.log(error);
+                setLoading(false);
                 dispatch(openSnackbar({message:`${error.response.data.message}`,severity:"error"}));
             }
         }
@@ -110,7 +120,7 @@ const Register = () => {
                     <input type="password" autoComplete='off' name='confirmPassword' placeholder='Confirm Password' value={values.confirmPassword} onChange={handleChange} onBlur={handleBlur}/>
                     { errors.confirmPassword && touched.confirmPassword  ? <span className={styles.error}>{errors.confirmPassword}</span> : null}
                 </div>
-                <button type='submit'>SignUp</button>
+                <button type='submit'>{loading ? <CircularProgress size={24}/> : "Register"}</button>
             </form>
             <span>Already have a account? <Link to="/login">Login</Link></span>
         </div>}
