@@ -56,6 +56,9 @@ const updateUser=async(req,res,next)=>{
                 const result = await cloudinary.uploader.upload(req.body.profilePicture, {
                     folder: `Meta_Sphere/${req.body.userId}`,
                     public_id: req.body.userId,
+                    quality: 'auto',
+                    height: 100,
+                    width: 100,
                 });
                 imageInfo = {
                     public_id: result.public_id,

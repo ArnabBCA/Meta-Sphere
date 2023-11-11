@@ -17,6 +17,7 @@ const createPost=async(req,res,next)=>{
         if (image) {
             const result = await cloudinary.uploader.upload(image, {
                 folder: `Meta_Sphere/${creatorId}/Images`,
+                quality: 'auto',
             });
             imageInfo = {
                 public_id: result.public_id,
@@ -78,6 +79,7 @@ const updatePost=async(req,res,next)=>{
             if(image){
                 const uploadOptions = {
                     folder: `Meta_Sphere/${post.creatorId}/Images`,
+                    quality: 'auto',
                 };
                 if (post.image && post.image.public_id) {
                     uploadOptions.public_id = post.image.public_id.split('/').pop();

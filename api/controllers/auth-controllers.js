@@ -42,6 +42,9 @@ const signup = async (req, res) => {
         if(req.body.profilePicture){
             const result = await cloudinary.uploader.upload(req.body.profilePicture, {
                 folder: `Meta_Sphere/${user._id.toString()}`,
+                quality: 'auto',
+                height: 100,
+                width: 100,
                 public_id: user._id.toString(),
             });
     
