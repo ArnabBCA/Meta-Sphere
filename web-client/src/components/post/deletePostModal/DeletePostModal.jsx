@@ -8,9 +8,13 @@ import ModalWrapper from '../../styled Components/modal wrapper/ModalWrapper';
 const DeletePostModal = ({setOpenDeletePostModal,handleDelete}) => {
     const [loading,setLoading]=useState(false);
     const haldleConfirm=async()=>{
-        setLoading(true);
-        await handleDelete();
-        setLoading(false);
+        try {
+            setLoading(true);
+            await handleDelete();
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
         setOpenDeletePostModal(false);
     }
   return (
@@ -20,7 +24,7 @@ const DeletePostModal = ({setOpenDeletePostModal,handleDelete}) => {
         </div>
             <div className={styles.modalAction}>
                 <button type='button' onClick={()=>setOpenDeletePostModal(false)}>Cancel</button>
-                <button type='button' onClick={haldleConfirm}>{loading ? <CircularProgress size={24}/> : "Delete"}</button>
+                <button type='button' onClick={haldleConfirm}>{loading ? <CircularProgress size={20}/> : "Delete"}</button>
             </div>
     </ModalWrapper>
   )
