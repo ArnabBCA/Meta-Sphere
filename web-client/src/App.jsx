@@ -5,11 +5,12 @@ import { BrowserRouter,Routes,Route,Navigate} from "react-router-dom";
 import { useSelector,useDispatch } from 'react-redux';
 import { closeSnackbar } from './state';
 
-import Home from "./pages/home/Home"
-import CustomScackbar from './components/styled Components/CustomSnackbar';
-
-import PersistLogin from './pages/auth/PersistLogin';
 import Auth from './pages/auth/Auth';
+import Home from "./pages/home/Home"
+import UserProfile from './pages/userProfile/UserProfile';
+
+import CustomScackbar from './components/styled Components/CustomSnackbar';
+import PersistLogin from './pages/auth/PersistLogin';
 
 function App() {
   const token=Boolean(useSelector((state)=>state.token));
@@ -27,6 +28,7 @@ function App() {
           <Route>
             <Route element={<PersistLogin/>}>
               <Route path='/' element={token?<Home/>:<Navigate to="/login"/>}/>
+              <Route path='/profile/:userId' element={<UserProfile/>}/>
             </Route>
             <Route path="/:page" element={<Auth/>}/>
           </Route>
