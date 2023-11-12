@@ -1,26 +1,38 @@
-.contact{
+.contactsContainer{
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    .contactInfo{
+    max-height: 300px;
+    overflow-y: scroll;
+    .contact{
+        width: 100%;
         display: flex;
         align-items: center;
-        gap: 15px;
-        img{
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-        .userInfo{
+        justify-content: space-between;
+        .contactInfo{
             display: flex;
-            flex-direction: column;
-            span:nth-of-type(1){
-                font-size: 16px;
+            align-items: center;
+            gap: 15px;
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
             }
-            span:nth-of-type(2){
-                font-size: 12px;
+            .userInfo{
+                display: flex;
+                flex-direction: column;
+                span:nth-of-type(1){
+                    font-size: 16px;
+                }
+                span:nth-of-type(2){
+                    font-size: 12px;
+                }
             }
         }
     }
 }
+
+.contactsContainer > div:first-child {
+    width: 100%;
+}
+
