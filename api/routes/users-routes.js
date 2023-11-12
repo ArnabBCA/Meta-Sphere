@@ -7,7 +7,7 @@ const router = express.Router();
 
 //router.use(checkAuth);
 router.get('/search/:userName',usersControllers.getUserByUserName);
-router.get('/:id',usersControllers.getCurrentUser);
+router.get('/:id',usersControllers.getUserByUserId);
 router.patch('/:id',usersControllers.updateUser);
 router.delete('/:id',usersControllers.deleteUser);
 router.put('/:id',usersControllers.followUser);

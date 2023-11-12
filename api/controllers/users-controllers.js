@@ -4,8 +4,8 @@ const bcrypt=require("bcrypt");
 const cloudinary = require('../middleware/cloudinary');
 
 const User = require('../models/user');
-//Get current user
-const getCurrentUser=async(req,res,next)=>{
+//Get user by userId
+const getUserByUserId=async(req,res,next)=>{
     try {
         const user=await User.findById(req.params.id);
         if(!user){
@@ -203,7 +203,7 @@ const getSuggestedUsers=async(req,res,next)=>{
 };    
 
 exports.getUserByUserName=getUserByUserName;
-exports.getCurrentUser=getCurrentUser;
+exports.getUserByUserId=getUserByUserId;
 exports.updateUser=updateUser;
 exports.deleteUser=deleteUser;
 exports.followUser=followUser;
