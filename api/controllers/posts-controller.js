@@ -238,14 +238,53 @@ const commentPost=async(req,res,next)=>{
 
 // get all posts of user
 const getPostsByUserId=async(req,res,next)=>{
-    let posts;
+    const page=req.query.page;
+    const limit=req.query.limit;
+        
+    const startIndex=(page-1)*limit;
+    const endIndex=page*limit;
+
+    const postsIds = req.body.postsIds;     //get all the postsIds that are already fetched
+
     try {
-        posts=await Post.find({creatorId:req.params.id});
-        if(!posts || posts.length === 0){
-            return next(new HttpError('Could not find posts for the provided user id.',404));
-        }
-        res.status(200).json(posts);
+        const user=await User.findById(req.params.id);
+
+        const posts=await Post.find({creatorId:req.params.id});
+        let userPosts = posts
+        .map(post => ({
+            ...post.toObject(),
+            userName: user.userName,
+            fullName: user.fullName,
+            profilePicture: user.profilePicture.url,
+            location: user.location
+        }));
+
+        userPosts = await Promise.all(userPosts.map(async (post) => {
+            const updatedComments = await Promise.all(post.comments.map(async (comment) => {
+                const user = await User.findById(comment.userId);
+                return {
+                    ...comment,
+                    profilePicture: user.profilePicture.url,
+                    userName: user.userName,
+                };
+            }));
+            return {
+                ...post,
+                comments: updatedComments
+            };
+        }));
+
+        let postsMoveToFront = userPosts.filter((post) => postsIds.includes(post._id.toString()));
+        let postsMoveToBack = userPosts.filter((post) => !postsIds.includes(post._id.toString()));
+        
+        //Sorting the postsMoveToBack Posts by createdAt (lastest to oldest)
+        postsMoveToBack= postsMoveToBack.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        userPosts = postsMoveToFront.concat(postsMoveToBack);
+        res.status(200).json(userPosts.slice(startIndex,endIndex));
     } catch (err) {
+        console.log(err);
         const error= new HttpError('Fetching posts failed, please try again later.',500);
         return next(error);
     }
