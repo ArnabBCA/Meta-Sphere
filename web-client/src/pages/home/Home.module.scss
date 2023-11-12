@@ -3,6 +3,7 @@
     margin: 0 auto;
     padding: 0px 15px 15px 15px;
     display: flex;
+    justify-content: center;
     gap: 30px;
     .homeContainer{
         display: flex;
@@ -12,20 +13,19 @@
         height: calc(100vh - 90.8px);
     }
     .left{
-        flex: 2;
+        width: 24rem;
     }
     .center {
-        flex: 3;
+        width: 36rem;
     }
-    
     .right{
-        flex: 2;
+        width: 24rem;
     }
 }
 @media only screen and (max-width: 600px) {
     .home{
         .homeContainer{
-            height: calc(100vh - 129.8px);
+            height: calc(100vh - 144.8px);
         }
     }
 }
