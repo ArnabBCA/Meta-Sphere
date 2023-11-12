@@ -10,7 +10,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import WigetWrapper from '../styled Components/wiget wrapper/WegetWrapper'
 import FollowUser from '../action buttons/FollowUser'
 
-const Contacts = () => {
+const Contacts = ({userId}) => {
     const axiosPrivate=useAxiosPrivate();
     const currentUser=useSelector((state)=>state.currentUser);
 
@@ -23,7 +23,7 @@ const Contacts = () => {
 
     const followingUsers=async()=>{
         try {
-            const res = await axiosPrivate.get(`/users/following/${currentUser._id}?page=${pageNo}&limit=${limit}`)
+            const res = await axiosPrivate.get(`/users/following/${userId}?page=${pageNo}&limit=${limit}`)
             const mergedUsers=[...following,...res.data];
             setFollowing(mergedUsers);
             if(res.data.length===0){
@@ -64,7 +64,7 @@ const Contacts = () => {
                                 </div>
                             </div>
                             <div className={styles.contactActions}>
-                                <FollowUser userId={user.userId} currentUser={currentUser} />
+                                <FollowUser userId={user.userId}/>
                             </div>
                         </div>
                     ))
