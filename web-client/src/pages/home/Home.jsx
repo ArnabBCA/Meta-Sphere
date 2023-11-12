@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './Home.module.scss'
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import Navbar from '../../components/navbar/Navbar'
+import Navbar from '../../components/navbar/NavBar'
 import Profile from '../../components/profile/Profile'
 import Contacts from '../../components/contacts/Contacts'
 import PostInput from '../../components/post input/PostInput'
@@ -26,7 +26,7 @@ const Home = () => {
     const medium = useMediaQuery('(min-width:1100px)');
     const small = useMediaQuery('(min-width:750px)');
     
-    const {_id}=useSelector(state=>state.currentUser);
+    const currentUser=useSelector(state=>state.currentUser);
     const posts=useSelector(state=>state.posts);
     const [postsIds,setPostsIds]=useState([]);
 
@@ -36,7 +36,7 @@ const Home = () => {
     const getTimelinePosts = async () => {
         let pageNo=Math.ceil(posts.length/limit)+1;
         try {
-            const res=await axiosPrivate.post(`/posts/timeline/${_id}/all?page=${pageNo}&limit=${limit}`,{
+            const res=await axiosPrivate.post(`/posts/timeline/${currentUser._id}/all?page=${pageNo}&limit=${limit}`,{
               postsIds:postsIds,
             });
             const mergedPosts=[...posts,...res.data];
@@ -66,8 +66,8 @@ const Home = () => {
       <Navbar />
       <div className={styles.home}>
         {small && <div className={`${styles.left} ${styles.homeContainer}`}>
-          <Profile/>
-          <Contacts/>
+          <Profile userId={currentUser._id}/>
+          <Contacts userId={currentUser._id}/>
         </div>}
         <div id='scrollCenterDiv' className={`${styles.center} ${styles.homeContainer}`}>
           <StoriesContainer/>
