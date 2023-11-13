@@ -14,7 +14,7 @@ const refreshToken = async(req, res) => {
         jwt.verify(refreshToken, 'secret', (err, decoded) => {
             if(err || user.email !== decoded.email) return res.status(403).json({message:"Invalid refresh token"});
             const token = jwt.sign({email:user.email},'secret',{expiresIn:"1h"});
-            res.json({token:token});
+            res.json({token:token, currentUser:user});
         });
     } catch (err) {
         console.log(err);
