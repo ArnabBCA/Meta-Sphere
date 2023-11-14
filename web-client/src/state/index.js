@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    theme: 'dark',
+    theme: localStorage.getItem('theme') || 'dark',
     token: null,
     currentUser: null,
     posts:[],
@@ -17,8 +17,10 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setTheme:(state) => {
-            state.theme = state.theme==="dark"?"light":"dark";
+        setTheme: (state) => {
+            const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            state.theme = newTheme;
         },
         setLogin:(state, action) => {
             if (action.payload.currentUser !== undefined) {
@@ -42,22 +44,6 @@ const authSlice = createSlice({
             else{
                 console.log("No Following Users found");
             }
-        },
-        setPosts:(state,action) => {
-            state.posts=action.payload.posts;
-        },
-        setPost:(state,action) => {
-            const updatedPosts=state.posts.map((post)=>{
-                if(post._id===action.payload.post._id){
-                    return action.payload.post;
-                }
-                return post;
-            })
-            state.posts=updatedPosts;
-        },
-        deletePost: (state, action) => {
-            const postIdToDelete = action.payload.postId;
-            state.posts = state.posts.filter(post => post._id !== postIdToDelete);
         },
 
         setStories:(state,action) => {
@@ -95,10 +81,7 @@ export const {
     setLogin,
     setLogout,
     setFollowings,
-    setPosts,
-    setPost,
     updateCurrentUser,
-    deletePost,
     openSnackbar,
     closeSnackbar,
     setStories,
