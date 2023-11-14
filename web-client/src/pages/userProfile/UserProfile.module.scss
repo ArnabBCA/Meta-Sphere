@@ -1,0 +1,28 @@
+.profile{
+    max-width: 1350px; 
+    margin: 0 auto;
+    padding: 0px 15px 15px 15px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    .profileContainer{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        overflow-y: scroll;
+        height: calc(100vh - 90.8px);
+    }
+    .left{
+        width: 24rem;
+    }   
+    .right{
+        width: 36rem;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .profile{
+        .profileContainer{
+            height: calc(100vh - 144.8px);
+        }
+    }
+}
