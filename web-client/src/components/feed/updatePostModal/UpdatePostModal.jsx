@@ -6,15 +6,16 @@ import PreviewImage from '../../styled Components/PreviewImage'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useSelector,useDispatch } from 'react-redux';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { openSnackbar, setPost } from '../../../state';
+import { openSnackbar } from '../../../state';
 import ModalWrapper from '../../styled Components/modal wrapper/ModalWrapper';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser}) => {
+const UpdatePostModal = ({ setOpenUpdateModal, post,posts,setPosts}) => {
 
   const dispatch=useDispatch();
   const axiosPrivate=useAxiosPrivate();
   const theme=useSelector((state)=>state.theme);
+  const currentUser=useSelector((state)=>state.currentUser);
   const [loading,setLoading]=useState(false);
 
   const [postDesc, setPostDesc] = useState((post.desc || '').trim());
@@ -30,7 +31,7 @@ const UpdatePostModal = ({ setOpenUpdateModal, post, currentUser}) => {
           ...(postDesc && { desc: postDesc }),
           ...(base64Image && { image: base64Image }),
         });
-        dispatch(setPost({post:res.data}));
+        setPosts(posts.map((p)=>p._id===post._id ? res.data : p));
         setLoading(false);
 
         setOpenUpdateModal(false);

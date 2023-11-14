@@ -11,16 +11,15 @@ import { useSelector,useDispatch } from 'react-redux';
 import { Button } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { setPosts,openSnackbar } from '../../state';
+import { openSnackbar } from '../../state';
 import StyledInputButton from '../styled Components/CustomInputButton';
 import WigetWrapper from '../styled Components/wiget wrapper/WegetWrapper';
 import PreviewImage from '../styled Components/PreviewImage';
 
-const PostInput = () => {
+const PostInput = ({setNewPostCreated}) => {
   const dispatch=useDispatch();
   const axiosPrivate=useAxiosPrivate();
   const currentUser=useSelector((state)=>state.currentUser);
-  const posts=useSelector(state=>state.posts);
 
   const theme=useSelector((state)=>state.theme);
   const [loading,setLoading]=useState(false);
@@ -40,11 +39,8 @@ const PostInput = () => {
         creatorId:currentUser._id,
         desc:desc.trim(),
       });
+      setNewPostCreated(res.data);
 
-      const mergedPosts=[res.data,...posts];
-      dispatch(setPosts({
-        posts:mergedPosts
-      }));
       setLoading(false);
       dispatch(openSnackbar({message:"Post Created",severity:"success"}));
 

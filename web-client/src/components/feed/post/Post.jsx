@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import PlaceIcon from '@mui/icons-material/Place';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShareIcon from '@mui/icons-material/Share';
-import styles from './Post.module.scss';
+import styles from '../post/Post.module.scss';
 import { useSelector} from 'react-redux';
-import CommentBox from '../action buttons/commentBox/CommentBox';
-import useMoment from '../../utils/useMoment';
-import StyledIconButton from '../styled Components/CustomIconButton';
-import PostLike from '../action buttons/postLike/PostLike';
-import PostDelete from '../action buttons/postDelete/PostDelete';
-import PostShare from '../action buttons/postShare/PostShare';
-import PostEdit from '../action buttons/postEdit/PostEdit'
-import FollowUser from '../action buttons/FollowUser';
-import NoProfilePic from '../../assets/account.png';
-import WegetWrapper from '../styled Components/wiget wrapper/WegetWrapper';
+import CommentBox from '../../action buttons/commentBox/CommentBox';
+import useMoment from '../../../utils/useMoment';
+import StyledIconButton from '../../styled Components/CustomIconButton';
+import PostLike from '../../action buttons/postLike/PostLike';
+import PostDelete from '../../action buttons/postDelete/PostDelete';
+import PostShare from '../../action buttons/postShare/PostShare';
+import PostEdit from '../../action buttons/postEdit/PostEdit'
+import FollowUser from '../../action buttons/FollowUser';
+import NoProfilePic from '../../../assets/account.png';
+import WegetWrapper from '../../styled Components/wiget wrapper/WegetWrapper';
 
-const HomeCenterFeed = ({ post, postSection }) => {
+const HomeCenterFeed = ({ post,posts,setPosts, postSection}) => {
   
   if (!post) return null;
 
@@ -47,9 +47,9 @@ const HomeCenterFeed = ({ post, postSection }) => {
           </div>
         </div>
         <div className={styles.postActionsButtons}>
-          {post.creatorId === currentUser._id && <PostEdit post={post} currentUser={currentUser}/>}  {/* for edit */}
-          {post.creatorId === currentUser._id && <PostDelete post={post} currentUser={currentUser}/>} {/* for delete */}
-          {post.creatorId != currentUser._id && <FollowUser userId={post.creatorId} currentUser={currentUser}/>}  {/* for follow */}
+          {post.creatorId === currentUser._id && <PostEdit post={post} posts={posts} setPosts={setPosts}/>}   {/* for edit */}
+          {post.creatorId === currentUser._id && <PostDelete post={post} posts={posts} setPosts={setPosts}/>}   {/* for delete */}
+          {post.creatorId != currentUser._id && <FollowUser userId={post.creatorId}/>}    {/* for follow */}
         </div>
       </div>
       {post.desc && <span className={`${styles.postDesc} primaryText`}>{post.desc}</span>}
@@ -57,7 +57,7 @@ const HomeCenterFeed = ({ post, postSection }) => {
       <div className={styles.postLikeOptions}>
         <div className={styles.postLikeBox}>
           <div className={styles.option}>
-            <PostLike post={post} currentUser={currentUser}/>   {/* for like */}
+            <PostLike post={post} posts={posts} setPosts={setPosts}/>   {/* for like */}
             <span>{post.likes.length}</span>
           </div>
           <div className={styles.option}>
@@ -68,7 +68,7 @@ const HomeCenterFeed = ({ post, postSection }) => {
         <StyledIconButton onClick={handlleShareOpen} icon={<ShareIcon/>}/>
       </div>
       {shareOpen && <PostShare post={post} theme={theme}/>} {/* for share */}
-      <CommentBox post={post} commentCount={post.comments.length}/> {/* for comment */}
+      <CommentBox post={post} posts={posts} setPosts={setPosts} commentCount={post.comments.length}/> {/* for comment */}
     </WegetWrapper>
   );
 };

@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { useDispatch } from 'react-redux';
-import { deletePost,openSnackbar } from '../../../state';
+import { useDispatch, useSelector } from 'react-redux';
+import { openSnackbar } from '../../../state';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 
 import StyledIconButton from '../../styled Components/CustomIconButton'
-import DeletePostModal from '../../post/deletePostModal/DeletePostModal';
+import DeletePostModal from '../../feed/deletePostModal/DeletePostModal';
 
-const PostDelete = ({post,currentUser}) => {
+const PostDelete = ({post,posts,setPosts}) => {
     const dispatch=useDispatch();
     const axiosPrivate=useAxiosPrivate();
+    const currentUser=useSelector((state)=>state.currentUser);
     const [openDeletePostModal,setOpenDeletePostModal]=useState(false);
 
     const handleDelete=async()=>{
@@ -21,7 +22,7 @@ const PostDelete = ({post,currentUser}) => {
             userId: currentUser._id,
           },
         });
-        dispatch(deletePost({postId:post._id}));
+        setPosts(posts.filter((p) => p._id !== post._id));
 
         dispatch(openSnackbar({message:"Post Deleted",severity:"success"}));
       } catch (error) {

@@ -4,11 +4,11 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import SendIcon from '@mui/icons-material/Send';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useSelector,useDispatch } from 'react-redux';
-import { setPost,openSnackbar } from '../../../state';
+import { openSnackbar } from '../../../state';
 import useMoment from '../../../utils/useMoment'
 import StyledIconButton from '../../styled Components/CustomIconButton';
 
-const CommentBox = ({post,commentCount}) => {
+const CommentBox = ({post,posts,setPosts,commentCount}) => {
     const dispatch=useDispatch();
     const axiosPrivate=useAxiosPrivate();
     const currentUser=useSelector((state)=>state.currentUser);
@@ -32,7 +32,7 @@ const CommentBox = ({post,commentCount}) => {
                 userId: currentUser._id,
                 text:comment,
             });
-            dispatch(setPost({post:res.data}));
+            setPosts(posts.map((p)=>p._id===post._id ? res.data : p));
 
             dispatch(openSnackbar({message:"Comment Added",severity:"success"}));
             setComment('');
