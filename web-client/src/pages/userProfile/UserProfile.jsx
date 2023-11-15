@@ -12,7 +12,7 @@ const UserProfile = () => {
     const small = useMediaQuery('(min-width:750px)');
 
   return (
-    <>
+    <div key={userId}>
         <Navbar/>
         <div className={styles.profile}>
             {small && <div className={`${styles.left} ${styles.profileContainer}`}>
@@ -24,7 +24,7 @@ const UserProfile = () => {
                 <Feed userId={userId}/>
             </div>
         </div>
-    </>
+    </div>
   )
 }
 
