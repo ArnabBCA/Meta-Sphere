@@ -34,7 +34,7 @@ const Home = () => {
           {!medium && <div className={styles.suggestedUsersContainer}>
             <SuggestedUsers/>
           </div>}
-          <Feed timeline={"timeline"} userId={currentUser._id} newPostCreated={newPostCreated} setNewPostCreated={setNewPostCreated}/>
+          <Feed page={"timeline"} userId={currentUser._id} newPostCreated={newPostCreated} setNewPostCreated={setNewPostCreated}/>
         </div>
         {medium && 
           <div className={`${styles.right} ${styles.homeContainer}`}>

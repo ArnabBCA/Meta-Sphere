@@ -21,7 +21,7 @@ const UserProfile = () => {
             </div>}
             <div id='scrollCenterDiv' className={`${styles.right} ${styles.profileContainer}`}>
                 {!small && <Profile userId={userId}/>}
-                <Feed userId={userId}/>
+                <Feed page={"profile"} userId={userId}/>
             </div>
         </div>
     </div>
