@@ -21,7 +21,7 @@ const Home = () => {
     const currentUser=useSelector(state=>state.currentUser);
 
   return (
-    <>
+    <div>
       <Navbar />
       <div className={styles.home}>
         {small && <div className={`${styles.left} ${styles.homeContainer}`}>
@@ -43,7 +43,7 @@ const Home = () => {
           </div>
         }
       </div>
-    </>
+    </div>
   )
 }
 
