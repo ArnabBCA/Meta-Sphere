@@ -10,43 +10,43 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 
 import { useSelector,useDispatch } from 'react-redux';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { Link } from 'react-router-dom';
 
 import { updateCurrentUser,openSnackbar } from '../../state';
 import StyledIconButton from '../styled Components/CustomIconButton';
 import WigetWrapper from '../styled Components/wiget wrapper/WegetWrapper';
 
-const Profile = ({profileModal, setProfileModal}) => {
+
+const Profile = ({profileModal, setProfileModal,userId}) => {
   const theme=useSelector((state)=>state.theme);
 
   const dispatch = useDispatch();
   const axiosPrivate=useAxiosPrivate();
-  
-  const token=useSelector((state)=>state.token);
-  const currentUser=useSelector((state)=>state.currentUser);
 
-  const getCurrentUser = async () => {
+  const [user,setUser]=React.useState({});
+
+  const getUserProfileData = async () => {
     try {
-      const res = await axiosPrivate.get(`/users/${currentUser._id}`)
-      dispatch(updateCurrentUser({
-        currentUser:res.data,
-      }));
+      const res = await axiosPrivate.get(`/users/${userId}`)
+      setUser(res.data);
     } catch (error) {
       console.log(error);
       dispatch(openSnackbar({message:"Failed To fetch Current User",severity:"error"}));
     }
   };
   useEffect(() => {
-    getCurrentUser();
+    getUserProfileData();
   }, []);
-
   return (
     <WigetWrapper>
         <div className={styles.userInfo}>
             <div className={styles.profile}>
-                {currentUser.profilePicture ? <img src={currentUser.profilePicture.url} alt=""/> : <img src={NoProfilePic} alt=""/>}
+                <Link to={`/profile/${user._id}`}>
+                    <img src={user.profilePicture ? user.profilePicture.url : NoProfilePic} alt=""/>
+                </Link>
                 <div className={styles.profileInfo}>
-                    <span className={"primaryText"}>@{currentUser.userName}</span>
-                    <span className={"secondaryText"}>{currentUser.fullName}</span>
+                    <Link className="primaryText" to={`/profile/${user._id}`}>@{user.userName}</Link>
+                    <span className={"secondaryText"}>{user.fullName}</span>
                 </div>
             </div>
             <StyledIconButton icon={<EditIcon/>} onClick={()=>setProfileModal(true)}/>
@@ -55,7 +55,7 @@ const Profile = ({profileModal, setProfileModal}) => {
             <div className={styles.userDetails}>
                 <div className={styles.userDetailsInfo}>
                     <PlaceIcon className={"primaryText"}/>
-                    <span className={"secondaryText"}>Location</span>
+                    <span className={"secondaryText"}>{user.location ? user.Location : "Location"}</span>
                 </div>
                 <div className={styles.userDetailsInfo}>
                     <WorkOutlineIcon className={"primaryText"}/>

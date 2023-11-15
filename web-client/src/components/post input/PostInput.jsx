@@ -15,6 +15,7 @@ import { openSnackbar } from '../../state';
 import StyledInputButton from '../styled Components/CustomInputButton';
 import WigetWrapper from '../styled Components/wiget wrapper/WegetWrapper';
 import PreviewImage from '../styled Components/PreviewImage';
+import { Link } from 'react-router-dom';
 
 const PostInput = ({setNewPostCreated}) => {
   const dispatch=useDispatch();
@@ -56,7 +57,9 @@ const PostInput = ({setNewPostCreated}) => {
   return (
     <WigetWrapper>
         <div className={styles.postInput}>
-          {currentUser.profilePicture ? <img src={currentUser.profilePicture.url} alt="" /> : <img src={NoProfilePic} alt=""/>}
+          <Link to={`/profile/${currentUser._id}`}>
+            <img src={currentUser.profilePicture ? currentUser.profilePicture.url : NoProfilePic} alt="" />
+          </Link>
           <input className='bgInput' type="text" placeholder="What's in your mind? . . ." onChange={(e)=>setdesc(e.target.value)} value={desc} name='post desc'/>
         </div>
         {!base64Image && <div className={"horizontalHr"+theme}/>}

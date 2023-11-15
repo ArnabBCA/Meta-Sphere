@@ -6,11 +6,13 @@ import { CircularProgress } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 import FollowUser from '../action buttons/FollowUser';
+import { Link } from 'react-router-dom';
 
 const SuggestedUsers = () => {
+    const axiosPrivate=useAxiosPrivate();
     const token=useSelector((state)=>state.token);
     const currentUser=useSelector((state)=>state.currentUser);
     const [suggestedUsers, setSuggestedUsers] = useState([]);
@@ -21,11 +23,7 @@ const SuggestedUsers = () => {
 
     const getSuggestedUsers=async()=>{
         try {
-            const res = await axios.get(`http://localhost:5000/api/users/suggested/${currentUser._id}?page=${pageNo}&limit=${limit}`, {
-              headers: {
-                Authorization: 'Bearer ' + token
-              },
-            })
+            const res = await axiosPrivate.get(`/users/suggested/${currentUser._id}?page=${pageNo}&limit=${limit}`)
             const mergedUsers=[...suggestedUsers,...res.data];
             setSuggestedUsers(mergedUsers);
             if(res.data.length===0){
@@ -58,9 +56,11 @@ const SuggestedUsers = () => {
         >
             {suggestedUsers.map((user) => (
                 <div className={`${styles.userCard} wigetPrimary`} key={user._id}>
-                    <img src={user.profilePicture ? user.profilePicture.url : NoProfilePic} alt="" />
+                    <Link to={`/profile/${user._id}`}>
+                        <img src={user.profilePicture ? user.profilePicture.url : NoProfilePic} alt="" />
+                    </Link>
                     <div className={styles.userInfo}>
-                        <span className='primaryText'>@{user.userName}</span>
+                        <Link className='primaryText' to={`/profile/${user._id}`}>@{user.userName}</Link>
                         <span className='secondaryText'>{user.fullName}</span>
                     </div>
                     <FollowUser userId={user._id} currentUser={currentUser} token={token}/>

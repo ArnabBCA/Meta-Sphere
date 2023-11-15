@@ -7,6 +7,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { openSnackbar } from '../../../state';
 import useMoment from '../../../utils/useMoment'
 import StyledIconButton from '../../styled Components/CustomIconButton';
+import { Link } from 'react-router-dom';
 
 const CommentBox = ({post,posts,setPosts,commentCount}) => {
     const dispatch=useDispatch();
@@ -52,10 +53,12 @@ const CommentBox = ({post,posts,setPosts,commentCount}) => {
         </div>
         {slice.map((comment)=>(
             <div className={styles.commentContainer} key={comment._id}>
-                <img src={comment.profilePicture} alt="" />
+                <Link to={`/profile/${comment.userId}`}>
+                    <img  src={comment.profilePicture} alt="" />
+                </Link>
                 <div className={styles.commentInfo}>
                     <div className={styles.timeBox}>
-                        <span className='secondaryText'>{comment.userName}</span>
+                        <Link to={`/profile/${comment.userId}`} className='secondaryText'>{comment.userName}</Link>
                         <span className='secondaryText'>{useMoment(comment.createdAt)}</span>
                     </div>
                     <span className='primaryText'>{comment.text}</span>

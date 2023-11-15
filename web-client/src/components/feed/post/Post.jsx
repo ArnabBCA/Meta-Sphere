@@ -14,9 +14,9 @@ import PostEdit from '../../action buttons/postEdit/PostEdit'
 import FollowUser from '../../action buttons/FollowUser';
 import NoProfilePic from '../../../assets/account.png';
 import WegetWrapper from '../../styled Components/wiget wrapper/WegetWrapper';
+import { Link } from 'react-router-dom';
 
 const HomeCenterFeed = ({ post,posts,setPosts, postSection}) => {
-  
   if (!post) return null;
 
   const theme=useSelector((state)=>state.theme);
@@ -34,10 +34,12 @@ const HomeCenterFeed = ({ post,posts,setPosts, postSection}) => {
       {postSection && <span>Vital Posts</span>} {/* for viral post section */}
       <div className={styles.feedUserContainer}>
         <div className={styles.postUserInfo}>
-          <img src={post.profilePicture ? post.profilePicture : NoProfilePic} alt="" />
+          <Link to={`/profile/${post.creatorId}`}>
+            <img src={post.profilePicture ? post.profilePicture : NoProfilePic} alt="" />
+          </Link>
           <div className={styles.userProfileInfo}>
             <div className={styles.timeBox}>
-              <span className='primaryText'>@{post.userName}</span>
+              <Link to={`/profile/${post.creatorId}`} className='primaryText'>@{post.userName}</Link>
               <span className='secondaryText'>{useMoment(post.createdAt)}</span>
             </div>
             <div className={styles.location}>

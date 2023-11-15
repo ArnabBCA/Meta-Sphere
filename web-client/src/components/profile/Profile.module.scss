@@ -14,12 +14,13 @@
         }
         .profileInfo{
             display: flex;
-            flex-direction: column; 
-            span:nth-of-type(1){
+            flex-direction: column;
+            :link{
+                text-decoration: none;
                 font-size: 18px;
                 font-weight: 600;
             }
-            span:nth-of-type(2){
+            span{
                 font-size: 16px;
             }
         }
