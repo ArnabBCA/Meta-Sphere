@@ -7,8 +7,9 @@ import ReachedEnd from '../styled Components/reachedEnd/ReachedEnd';
 import { CircularProgress } from '@mui/material';
 
 import Post from './post/Post';
+import Masonry from 'react-masonry-css'
 
-const Feed = ({ timeline, userId, newPostCreated, setNewPostCreated }) => {
+const Feed = ({ page, userId, newPostCreated, setNewPostCreated }) => {
   const dispatch = useDispatch();
   const axiosPrivate = useAxiosPrivate();
   const currentUser = useSelector((state) => state.currentUser);
@@ -16,18 +17,31 @@ const Feed = ({ timeline, userId, newPostCreated, setNewPostCreated }) => {
   const [postsIds, setPostsIds] = useState([]);
   const [hasMorePosts, setHasMorePosts] = useState(true);
   const screenHeightRef = useRef(window.innerHeight);
-  const [limit, setLimit] = useState(Math.ceil(screenHeightRef.current / 325));
+  let limit;
+  if(page==="explore"){
+    limit=9;
+  }
+  else{
+    limit=Math.ceil(screenHeightRef.current / 325);
+  }
 
   const getTimelinePosts = async () => {
     let pageNo = Math.ceil(posts.length / limit) + 1;
     try {
-      const res = timeline
-        ? await axiosPrivate.post(`/posts/timeline/${currentUser._id}/all?page=${pageNo}&limit=${limit}`, {
-            postsIds: postsIds,
-          })
-        : await axiosPrivate.post(`/posts/user/${userId}?page=${pageNo}&limit=${limit}`, {
-            postsIds: postsIds,
-        });
+      let path;
+      if(page==="explore"){
+        path=`/posts/explore?page=${pageNo}&limit=${limit}`;
+      }
+      if(page==="profile"){
+        path=`/posts/user/${userId}?page=${pageNo}&limit=${limit}`;
+      }
+      if(page==="timeline"){
+        path=`/posts/timeline/${currentUser._id}/all?page=${pageNo}&limit=${limit}`;
+      }
+    
+      const res = await axiosPrivate.post(path, {
+        postsIds: postsIds,
+      });
       let mergedPosts;
       if (newPostCreated) {
         setPostsIds([newPostCreated._id, ...postsIds]);
@@ -54,6 +68,13 @@ const Feed = ({ timeline, userId, newPostCreated, setNewPostCreated }) => {
   const fetchMoreData = () => {
     getTimelinePosts();
   };
+
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 1,
+    500: 1
+  };
   
   return (
     <InfiniteScroll
@@ -62,12 +83,21 @@ const Feed = ({ timeline, userId, newPostCreated, setNewPostCreated }) => {
       hasMore={hasMorePosts}
       loader={<CircularProgress />}
       endMessage={<ReachedEnd />}
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px' }}
+      style={{ display: 'flex',  flexDirection: 'column', alignItems:"center", gap: '30px' }}
       scrollableTarget={'scrollCenterDiv'}
     >
-      {posts.map((post) => (
+      {page!="explore" && posts.map((post) => (
         <Post key={post._id} post={post} posts={posts} setPosts={setPosts} />
       ))}
+      
+      {page==="explore" && <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column">
+        {posts.map((post) => (
+            <Post key={post._id} post={post} posts={posts} setPosts={setPosts}/>
+        ))}
+      </Masonry>}
     </InfiniteScroll>
   );
 };

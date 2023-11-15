@@ -1,0 +1,13 @@
+.explore{
+    max-width: 1350px; 
+    margin: 0 auto;
+    padding: 0px 15px 15px 15px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    .exploreContainer{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

@@ -50,3 +50,15 @@
 .infinite-scroll-component__outerdiv{
     height: 100%;
 }
+
+.my-masonry-grid {
+    display: flex;
+    width: auto;
+    gap: 20px;
+}
+.my-masonry-grid_column {
+    background-clip: padding-box;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}

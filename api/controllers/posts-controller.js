@@ -365,6 +365,60 @@ const timelinePosts = async (req, res, next) => {
     }
 };
 
+//get all posts in the database
+
+const getAllPosts=async(req,res,next)=>{
+    const page=req.query.page;
+    const limit=req.query.limit;
+        
+    const startIndex=(page-1)*limit;
+    const endIndex=page*limit;
+
+    const postsIds = req.body.postsIds;     //get all the postsIds that are already fetched
+    try {
+        const posts = await Post.find();
+        let explorePosts = await Promise.all(posts.map(async (post) => {
+            const user = await User.findById(post.creatorId);
+            return {
+                ...post.toObject(),
+                userName: user.userName,
+                fullName: user.fullName,
+                profilePicture: user.profilePicture.url,
+                location: user.location
+            };
+        }));
+
+        explorePosts = await Promise.all(explorePosts.map(async (post) => {
+            const updatedComments = await Promise.all(post.comments.map(async (comment) => {
+                const user = await User.findById(comment.userId);
+                return {
+                    ...comment,
+                    profilePicture: user.profilePicture.url,
+                    userName: user.userName,
+                };
+            }));
+            return {
+                ...post,
+                comments: updatedComments
+            };
+        }));
+
+        let postsMoveToFront = explorePosts.filter((post) => postsIds.includes(post._id.toString()));
+        let postsMoveToBack = explorePosts.filter((post) => !postsIds.includes(post._id.toString()));
+
+        //Sorting the postsMoveToBack Posts by createdAt (lastest to oldest)
+        postsMoveToBack= postsMoveToBack.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        explorePosts = postsMoveToFront.concat(postsMoveToBack);
+        res.status(200).json(explorePosts.slice(startIndex,endIndex));
+    } catch (err) {
+        console.log(err);
+        const error= new HttpError('Fetching posts failed, please try again later.',500);
+        return next(error);
+    }
+};
+
 exports.createPost = createPost;
 exports.getPostById = getPostById;
 exports.updatePost = updatePost;
@@ -374,6 +428,7 @@ exports.likePost = likePost;
 exports.commentPost = commentPost;
 exports.getPostsByUserId = getPostsByUserId;
 exports.timelinePosts = timelinePosts;
+exports.getAllPosts = getAllPosts;
 
 
 

@@ -8,6 +8,7 @@ import { closeSnackbar } from './state';
 import Auth from './pages/auth/Auth';
 import Home from "./pages/home/Home"
 import UserProfile from './pages/userProfile/UserProfile';
+import Explore from './pages/explore/Explore';
 
 import CustomScackbar from './components/styled Components/CustomSnackbar';
 import PersistLogin from './pages/auth/PersistLogin';
@@ -28,7 +29,8 @@ function App() {
           <Route>
             <Route element={<PersistLogin/>}>
               <Route path='/' element={token?<Home/>:<Navigate to="/login"/>}/>
-              <Route path='/profile/:userId' element={<UserProfile/>}/>
+              <Route path='/profile/:userId' element={token?<UserProfile/> :<Navigate to="/login"/>}/>
+              <Route path='/explore' element={token ? <Explore/> :<Navigate to="/login"/>}/>
             </Route>
             <Route path="/:page" element={<Auth/>}/>
           </Route>
