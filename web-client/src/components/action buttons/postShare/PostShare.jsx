@@ -5,7 +5,6 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import styles from './PostShare.module.scss';
 const PostShare = ({post}) => {
-  
   const [copied, setCopied] = useState(false);
 
   const handleCopyToClipboard = () => {
@@ -16,8 +15,8 @@ const PostShare = ({post}) => {
   };
   return (
     <div className={`${styles.postShare} wigetSecondary`}>
-        <span className='secondaryText'>{post._id}</span>
-        <CopyToClipboard text={post._id} onCopy={handleCopyToClipboard}>
+        <span className='secondaryText'>{`${window.location.host}/post/${post._id}`}</span>
+        <CopyToClipboard text={`${window.location.host}/post/${post._id}`} onCopy={handleCopyToClipboard}>
           <StyledIconButton icon={copied ? <CheckCircleOutlineRoundedIcon style={{color:"green"}}/> : <ContentCopyIcon/>}/>
         </CopyToClipboard>
     </div>
