@@ -6,10 +6,10 @@ const checkAuth=require('../middleware/check-auth')
 
 const router = express.Router();
 
-router.use(checkAuth);
+//router.use(checkAuth);
 
 router.post('/',check('desc').isLength({max:50}),postsController.createPost);
-router .get('/:id',postsController.getPostById);
+router .post('/find/post/:id',postsController.getPostById);
 router.patch('/:id',[check('desc').isLength({max:50})],postsController.updatePost);
 router.delete('/:id',postsController.deletePost);
 

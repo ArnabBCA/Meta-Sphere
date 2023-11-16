@@ -50,16 +50,25 @@ const createPost=async(req,res,next)=>{
 };
 
 //get a post by Id
-const getPostById=async(req,res,next)=>{
-    let post;
+const getPostById = async (req, res, next) => {
     try {
-        post=await Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id);
+        const creator = await User.findById(post.creatorId);
+        const creatorPost = {
+            ...post.toObject(),
+            userName: creator.userName,
+            fullName: creator.fullName,
+            profilePicture: creator.profilePicture.url,
+            location: creator.location
+        };
+        res.status(200).json([creatorPost]); // Wrap creatorPost in an array
     } catch (err) {
-        const error = new HttpError('Could not find the post by that Id',404);
+        console.log(err);
+        const error = new HttpError('Could not find the post by that Id', 404);
         return next(error);
     }
-    res.status(200).json({post:post.toObject({getters:true})});
 };
+
 
 // update a post
 const updatePost=async(req,res,next)=>{

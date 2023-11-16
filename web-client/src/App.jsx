@@ -12,6 +12,7 @@ import Explore from './pages/explore/Explore';
 
 import CustomScackbar from './components/styled Components/CustomSnackbar';
 import PersistLogin from './pages/auth/PersistLogin';
+import FindPost from './pages/findPost/FindPost';
 
 function App() {
   const token=Boolean(useSelector((state)=>state.token));
@@ -31,6 +32,7 @@ function App() {
               <Route path='/' element={token?<Home/>:<Navigate to="/login"/>}/>
               <Route path='/profile/:userId' element={token?<UserProfile/> :<Navigate to="/login"/>}/>
               <Route path='/explore' element={token ? <Explore/> :<Navigate to="/login"/>}/>
+              <Route path='/post/:postId' element={token ? <FindPost/> :<Navigate to="/login"/>}/>
             </Route>
             <Route path="/:page" element={<Auth/>}/>
           </Route>

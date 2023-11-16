@@ -9,7 +9,7 @@ import { CircularProgress } from '@mui/material';
 import Post from './post/Post';
 import Masonry from 'react-masonry-css'
 
-const Feed = ({ page, userId, newPostCreated, setNewPostCreated }) => {
+const Feed = ({ page, userId, postId, newPostCreated, setNewPostCreated }) => {
   const dispatch = useDispatch();
   const axiosPrivate = useAxiosPrivate();
   const currentUser = useSelector((state) => state.currentUser);
@@ -38,7 +38,9 @@ const Feed = ({ page, userId, newPostCreated, setNewPostCreated }) => {
       if(page==="timeline"){
         path=`/posts/timeline/${currentUser._id}/all?page=${pageNo}&limit=${limit}`;
       }
-    
+      if(page==="findPost"){
+        path=`/posts/find/post/${postId}`;
+      }
       const res = await axiosPrivate.post(path, {
         postsIds: postsIds,
       });
