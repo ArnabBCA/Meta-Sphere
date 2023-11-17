@@ -34,7 +34,7 @@ function App() {
               <Route path='/explore' element={token ? <Explore/> :<Navigate to="/login"/>}/>
               <Route path='/post/:postId' element={token ? <FindPost/> :<Navigate to="/login"/>}/>
             </Route>
-            <Route path="/:page" element={<Auth/>}/>
+            <Route path="/auth/:page" element={<Auth/>}/>
           </Route>
         </Routes>
         <CustomScackbar open={snackbar.open} message={snackbar.message} severity={snackbar.severity} onClose={()=>dispatch(closeSnackbar())}/>
