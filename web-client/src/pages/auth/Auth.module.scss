@@ -208,8 +208,9 @@
                     }
                     button{
                         padding: 10px 20px;
-                        background-color: #07D2FC;
+                        background: linear-gradient(to right, #36aee6ed 0%, rgb(131, 66, 212) 100%);
                         border-radius: 30px;
+                        color: white;
                         outline: none;
                         border: none;
                         cursor: pointer;

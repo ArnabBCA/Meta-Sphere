@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styles from './StoriesContainer.module.scss'
 
-import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
+import AddIcon from '@mui/icons-material/Add';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Fab } from '@mui/material';
 import { useSelector,useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
@@ -69,8 +70,14 @@ const StoriesContainer = () => {
             scrollableTarget="scrollableStoriesDiv"
           >
             <div className={styles.createPost} onClick={()=>setOpenCreateStoryModal(true)}>
-            <AddBoxRoundedIcon sx={{color:"aqua",fontSize:"35px"}}/>
-            <span className='primaryText'>Create Story</span>
+            <Fab
+              size="medium"
+              sx={{ background: 'linear-gradient(to right, #36aee6ed 0%, rgb(131, 66, 212) 100%)',zIndex:"0" }}
+              aria-label="add"
+            >
+              <InstagramIcon sx={{fontSize:"30px",color:'white'}}/>
+            </Fab>
+            <span className='primaryText'>Add Story</span>
           </div>
           {stories.map((story,index)=>(<Story key={index} story={story} currentUser={currentUser} newStoryCreated={newStoryCreated} setNewStoryCreated={setNewStoryCreated}/>))}
           </InfiniteScroll>

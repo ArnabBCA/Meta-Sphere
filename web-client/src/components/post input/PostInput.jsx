@@ -77,17 +77,24 @@ const PostInput = ({setNewPostCreated}) => {
           <div className={styles.dummyButton2}>
             <StyledInputButton text={"Attach"} icon={<AttachFileIcon/>}/>
           </div>
-          <Button variant="contained" onClick={handleSubmit} sx={{
-            borderRadius: '20px',
-            textTransform: 'none',
-            fontWeight: '500',
-            fontSize: '14px',
-            backgroundColor: 'aqua',
-            color:'black',
-            width:'90px',
-            fontFamily: 'inherit',
-            '&:hover, &.Mui-focusVisible': { backgroundColor: 'aqua' },
-          }}>{loading ? <CircularProgress size={20}/> :"Post"}</Button>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontSize: '14px',
+              background: 'linear-gradient(to right, #36aee6ed 0%, rgb(131, 66, 212) 100%)',
+              color: 'white',
+              width: '100px',
+              fontFamily: 'inherit',
+              '&:hover, &.Mui-focusVisible': {
+                background: 'linear-gradient(to right, #36aee6ed 0%, rgb(131, 66, 212) 100%)',
+              },
+            }}
+          >
+            {loading ? <CircularProgress sx={{color:"white"}} size={24} /> : "Post"}
+          </Button>
         </div>
       </WigetWrapper>
   )
