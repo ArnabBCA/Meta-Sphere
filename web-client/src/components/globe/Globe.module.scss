@@ -17,6 +17,12 @@
 
 @media only screen and (max-width: 600px) {
     .globeContainer{
+        width: 250px;
+        height: 250px;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .globeContainer{
         width: 200px;
         height: 200px;
     }

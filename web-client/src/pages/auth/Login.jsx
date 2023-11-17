@@ -64,7 +64,7 @@ const Login = () => {
                 </div>
                 <button type='submit'> {loading ? <CircularProgress size={24}/> : "Login"}</button>
             </form>
-            <span>Don't have a account? <Link to="/register">Register</Link></span>
+            <span>Don't have a account? <Link to="/auth/register">Register</Link></span>
         </div>}
     </div>
   )

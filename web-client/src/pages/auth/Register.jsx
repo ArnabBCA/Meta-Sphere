@@ -115,7 +115,7 @@ const Register = () => {
                 </div>
                 <button type='submit'>{loading ? <CircularProgress size={24}/> : "Register"}</button>
             </form>
-            <span>Already have a account? <Link to="/login">Login</Link></span>
+            <span>Already have a account? <Link to="/auth/login">Login</Link></span>
         </div>}
     </div>
   )
