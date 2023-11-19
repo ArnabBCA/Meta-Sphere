@@ -42,7 +42,6 @@ const PostInput = ({setNewPostCreated}) => {
       });
       setNewPostCreated(res.data);
 
-      setLoading(false);
       dispatch(openSnackbar({message:"Post Created",severity:"success"}));
 
       setPreviewImage('');
@@ -50,8 +49,10 @@ const PostInput = ({setNewPostCreated}) => {
       setdesc('');
     } catch (error) {
       console.log(error);
-      setLoading(false);
       dispatch(openSnackbar({message:"Failed to Create Post",severity:"error"}));
+    }
+    finally{
+      setLoading(false);
     }
   }
   return (

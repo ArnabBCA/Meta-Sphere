@@ -76,13 +76,14 @@ const Register = () => {
                     password:values.password,
                     profilePicture:image,
                 });
-                setLoading(false);
                 setVerifyPage(true);
                 dispatch(openSnackbar({message:"Verification Email Sent",severity:"success"}));
             }catch(error){
                 console.log(error);
-                setLoading(false);
                 dispatch(openSnackbar({message:`${error.response.data.message}`,severity:"error"}));
+            }
+            finally{
+                setLoading(false);
             }
         }
     });

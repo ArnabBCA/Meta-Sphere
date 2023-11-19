@@ -42,12 +42,14 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
     try {
       setEmailLoading(true);
       const res = await axios.post('http://localhost:5000/api/auth/sendotp', {
-        email: 'arnabsonu2@gmail.com',
+        email: email,
       });
-      setEmailLoading(false);
       dispatch(openSnackbar({ message: `${res.data.message}`, severity: 'success' }));
     } catch (error) {
       dispatch(openSnackbar({ message: `${error.response.data.message}`, severity: 'error' }));
+    }
+    finally{
+      setEmailLoading(false);
     }
   };
 
@@ -63,7 +65,7 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
       setOtp(['', '', '', '']);
       resetForm();
       if(currentPage==="register"){
-        navigate('/login');
+        navigate('/auth/login');
       }
       else{
         navigate('/');
@@ -71,8 +73,10 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
       dispatch(openSnackbar({ message: `${res.data.message}`, severity: 'success' }));
     } catch (error) {
       console.log(error);
-      setLoading(false);
       dispatch(openSnackbar({ message: `${error.response.data.message}`, severity: 'error' }));
+    }
+    finally{
+      setLoading(false);
     }
   };
 

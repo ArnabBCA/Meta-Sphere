@@ -11,8 +11,10 @@ const DeletePostModal = ({setOpenDeletePostModal,handleDelete}) => {
         try {
             setLoading(true);
             await handleDelete();
-            setLoading(false);
         } catch (error) {
+           console.log(error);
+        }
+        finally{
             setLoading(false);
         }
         setOpenDeletePostModal(false);

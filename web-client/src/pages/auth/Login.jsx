@@ -34,17 +34,18 @@ const Login = () => {
                     currentUser:res.data.currentUser,
                     token:res.data.token
                 }));
-                setLoading(false);
                 resetForm();
                 dispatch(openSnackbar({message:"Loggedin Successfully",severity:"success"}));
                 navigate('/');
             } catch (error) {
-                setLoading(false);
                 console.log(error);
                 if(error.response.data.message ==="Email not Verified"){
                     setVerifyPage(true);
                 }
                 dispatch(openSnackbar({message:`${error.response.data.message}`,severity:"error"}));
+            }
+            finally{
+                setLoading(false);
             }
         }
     });

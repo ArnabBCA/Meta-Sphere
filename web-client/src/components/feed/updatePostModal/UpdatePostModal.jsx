@@ -32,14 +32,16 @@ const UpdatePostModal = ({ setOpenUpdateModal, post,posts,setPosts}) => {
           ...(base64Image && { image: base64Image }),
         });
         setPosts(posts.map((p)=>p._id===post._id ? res.data : p));
-        setLoading(false);
 
         setOpenUpdateModal(false);
         dispatch(openSnackbar({message:"Post Updated Successfully",severity:"success"}));
-      } catch (error) {
-        setLoading(false);
+      }
+      catch (error) {
         console.log(error);
         dispatch(openSnackbar({message:"Failed to Update Post",severity:"error"}));
+      }
+      finally{
+        setLoading(false);
       }
     }
   return (

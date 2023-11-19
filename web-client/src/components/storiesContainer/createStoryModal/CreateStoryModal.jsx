@@ -81,15 +81,17 @@ const CreateStoryModal = ({ setOpenCreateStoryModal, story, currentUser, token,s
             stories:updatedStories
         }));
       }
-      setLoading(false);
       setNewStoryCreated(true);
 
       dispatch(openSnackbar({message:"Story Created Successfully",severity:"success"}));
       setOpenCreateStoryModal(false)
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error);
-      setLoading(false);
       dispatch(openSnackbar({message:"Failed To Create Story",severity:"error"}));
+    }
+    finally{
+      setLoading(false);
     }
   }
   return (
