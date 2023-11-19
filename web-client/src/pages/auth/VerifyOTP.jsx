@@ -99,7 +99,7 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
         <button onClick={handleSendEmail}>{emailLoading ? <CircularProgress size={24}/> :"Resend"}</button>
         <button onClick={handleVerifyOTP}>{loading ? <CircularProgress size={24}/> : "Verify"}</button>
       </div>
-      {currentPage === "register"  ? <span>Already have a account? <Link to="/login">Login</Link></span> :<span>Don't have a account? <Link to="/register">Signup</Link></span>}
+      {currentPage === "register"  ? <span>Already have a account? <Link to="/auth/login">Login</Link></span> :<span>Don't have a account? <Link to="/auth/register">Signup</Link></span>}
     </div>
   );
 };
