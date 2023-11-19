@@ -10,6 +10,7 @@ const initialState = {
         open: false,
         message: '',
         severity: 'error',
+        openCounter: 0,
     },
 };
 
@@ -67,11 +68,13 @@ const authSlice = createSlice({
             state.snackbar.open = true;
             state.snackbar.message = action.payload.message;
             state.snackbar.severity = action.payload.severity;
+            state.snackbar.openCounter += 1;
         },
         closeSnackbar: (state) => {
             state.snackbar.open = false;
             state.snackbar.message = state.snackbar.message || '';
             state.snackbar.severity = state.snackbar.severity || 'error';
+            state.snackbar.openCounter = 0;
         },
     },
 });

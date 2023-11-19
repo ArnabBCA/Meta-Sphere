@@ -23,21 +23,26 @@ function App() {
   useEffect(() => {
     document.body.className = theme === 'dark' ? 'dark' : 'light';
   }, [theme]);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+    dispatch(closeSnackbar())
+  };
   
   return (
       <BrowserRouter>
         <Routes>
           <Route>
             <Route element={<PersistLogin/>}>
-              <Route path='/' element={token?<Home/>:<Navigate to="/login"/>}/>
-              <Route path='/profile/:userId' element={token?<UserProfile/> :<Navigate to="/login"/>}/>
-              <Route path='/explore' element={token ? <Explore/> :<Navigate to="/login"/>}/>
-              <Route path='/post/:postId' element={token ? <FindPost/> :<Navigate to="/login"/>}/>
+              <Route path='/' element={token?<Home/>:<Navigate to="/auth/login"/>}/>
+              <Route path='/profile/:userId' element={token?<UserProfile/> :<Navigate to="/auth/login"/>}/>
+              <Route path='/explore' element={token ? <Explore/> :<Navigate to="/auth/login"/>}/>
+              <Route path='/post/:postId' element={token ? <FindPost/> :<Navigate to="/auth/login"/>}/>
             </Route>
             <Route path="/auth/:page" element={<Auth/>}/>
           </Route>
         </Routes>
-        <CustomScackbar open={snackbar.open} message={snackbar.message} severity={snackbar.severity} onClose={()=>dispatch(closeSnackbar())}/>
+        <CustomScackbar open={snackbar.open} message={snackbar.message} severity={snackbar.severity} onClose={handleClose}/>
       </BrowserRouter>
   )
 }
