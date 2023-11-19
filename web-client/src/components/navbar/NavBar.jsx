@@ -5,17 +5,19 @@ import SearchIcon from '@mui/icons-material/Search';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import HomeIcon from '@mui/icons-material/Home';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Explore from '@mui/icons-material/Explore';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Avatar from '../../assets/account.png'
 
 import { useDispatch,useSelector } from 'react-redux';
-import AccountMenu from './AccountMenu';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-
+import { Link } from 'react-router-dom';
 import { setTheme } from '../../state';
+
 import StyledIconButton from '../styled Components/CustomIconButton';
 import FollowUser from '../action buttons/FollowUser';
+import AccountMenu from './AccountMenu';
+import Logout from '../logout/Logout'
 
 const NavBar = () => {
     const axiosPrivate=useAxiosPrivate();
@@ -25,6 +27,7 @@ const NavBar = () => {
 
     const [searchUser,setSearchUser]=useState('');
     let [searchResult,setSearchResult]=useState([]);
+    const [openLogoutModal,setOpenLogoutModal]=useState(false);
     const handleSearch = async() => {
         if(searchUser==='') return;
         try {
@@ -48,22 +51,23 @@ const NavBar = () => {
             <div className={`${styles.navBar} wigetPrimary`}>
                 <div className={styles.navBarContainer}>
                         <div className={styles.navBarLogo}>
-                            <span>Meta Sphere</span>
+                            <Link to='/'>Meta Sphere</Link>
                             <div className={styles.searchContainer}>
                                 <div className={`${styles.navSearchBar} wigetSecondary`}>
                                     <input className='primaryText' type="text" placeholder="Search User.." name='search' onChange={(e)=>setSearchUser((e.target.value).trim())}/>
                                     <SearchIcon/>
                                 </div>
                                 <div className={styles.hamburger}>
-                                    <AccountMenu/>  
+                                    <AccountMenu setOpenLogoutModal={setOpenLogoutModal}/>  
                                 </div>
                             </div>
                         </div>
                     <div className={styles.navLinks} >
                         <StyledIconButton onClick={handleTheme} icon={theme==="dark"?<LightModeIcon/>:<DarkModeIcon/>}/>
-                        <StyledIconButton icon={<HomeIcon/>}/>
-                        <StyledIconButton  icon={<AccountCircleIcon/>}/>
-                        <StyledIconButton  icon={<LogoutIcon/>}/>
+                        <Link to='/'><StyledIconButton icon={<HomeIcon/>}/></Link>
+                        <Link to='/explore'><StyledIconButton icon={<Explore/>}/></Link>
+                        <StyledIconButton  icon={<LogoutIcon/>} onClick={()=>setOpenLogoutModal(true)}/>
+                        <Link to={`/profile/${currentUser._id}`}><StyledIconButton icon={<img style={{height:'22px',width:'22px',borderRadius:"50%",objectFit:'cover'}} src={currentUser.profilePicture.url} alt="" />}/></Link>
                     </div>
                 </div> 
             </div>
@@ -84,6 +88,7 @@ const NavBar = () => {
             )):<span className={'secondaryText'} style={{fontSize:"14px"}}>No user found.</span>}
             </div>
         </div>}
+        {openLogoutModal && <Logout setOpenLogoutModal={setOpenLogoutModal}/> }
         </>
     )
 }

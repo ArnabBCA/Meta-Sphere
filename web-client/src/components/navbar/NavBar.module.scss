@@ -18,12 +18,15 @@
                     display: flex;
                     align-items: center;
                     gap: 30px;
-                    span{
+                    :link{
+                        text-decoration:none;
                         position: relative;
                         white-space: nowrap;
                         font-size: 30px;
-                        color: #07D2FC;
                         font-weight: 600;
+                        background: linear-gradient(to right, #36aee6ed 0%, rgb(131, 66, 212) 100%);
+	                    -webkit-background-clip: text;
+	                    -webkit-text-fill-color: transparent;
                     }
                     .searchContainer{
                         width: 100%;
@@ -124,7 +127,7 @@
                 .navBarLogo{
                     flex-direction: column;
                     gap: 10px;
-                    span{
+                    :link{
                         align-self: self-start;
                     }
                     .searchContainer{

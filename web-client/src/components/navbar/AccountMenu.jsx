@@ -1,23 +1,28 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+
+import LogoutIcon from '@mui/icons-material/Logout';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import Home from '@mui/icons-material/Home';
+import Explore from '@mui/icons-material/Explore';
+
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+
 import { useDispatch,useSelector } from 'react-redux';
 import { setTheme } from '../../state';
+import { useNavigate } from 'react-router-dom';
 
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-
-export default function AccountMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function AccountMenu({setOpenLogoutModal}) {
+  const navigate=useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const currentUser=useSelector((state)=>state.currentUser);
   const open = Boolean(anchorEl);
 
   const theme=useSelector((state)=>state.theme);
@@ -45,7 +50,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar src={currentUser.profilePicture.url} sx={{ width: 32, height: 32 }}/>
           </IconButton>
         </Tooltip>
       </Box>
@@ -80,29 +85,35 @@ export default function AccountMenu() {
               height: 10,
               bgcolor: theme==="dark"?"var(--darkWigetSecondary)":"var(--lightWigetPrimary)", 
               transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
+              zIndex: -11,
             },
           },
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+        <MenuItem onClick={()=>navigate('/')}>
+          <ListItemIcon sx={{color: theme==="dark"?"var(--darkTextPrimary)":"var(--lightTextPrimary)", }}>
+            <Home fontSize="small" />
+          </ListItemIcon>
+          Home
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
+        <MenuItem onClick={()=>navigate('/explore')}>
+          <ListItemIcon sx={{color: theme==="dark"?"var(--darkTextPrimary)":"var(--lightTextPrimary)", }}>
+            <Explore fontSize="small" />
+          </ListItemIcon>
+          Explore
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleTheme}>
           <ListItemIcon sx={{color: theme==="dark"?"var(--darkTextPrimary)":"var(--lightTextPrimary)", }}>
             {theme==="dark"?<LightModeIcon/>:<DarkModeIcon/>}
           </ListItemIcon>
-          {theme==="dark"?"Light Mode":"Dark Mode"}
+          {theme==="dark"?"Light":"Dark"}
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={()=>setOpenLogoutModal(true)}>
           <ListItemIcon sx={{color: theme==="dark"?"var(--darkTextPrimary)":"var(--lightTextPrimary)", }}>
-            <Logout fontSize="small" />
+            <LogoutIcon fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>

@@ -98,6 +98,21 @@ const login = async(req, res) => {
     }
 }
 
+// Logout a user
+const logout = async(req, res) => {
+    try {
+        const userId=req.body.userId;
+        const user=await User.findById(userId);
+        await user.updateOne({refreshToken:""});
+        user.save();
+        res.clearCookie('jwt',{httpOnly:true,secure:true});
+        res.status(200).json({ message: 'Logged out' });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: 'Logging out failed, please try again.' });
+    }
+};
+
 //send email otp
 const sendEmailOtp=async (req, res) => {
     try {
@@ -158,5 +173,6 @@ const verifyEmail=async (req, res) => {
 
 exports.signup = signup;
 exports.login = login;
+exports.logout = logout;
 exports.sendEmailOtp=sendEmailOtp;
 exports.verifyEmail=verifyEmail;

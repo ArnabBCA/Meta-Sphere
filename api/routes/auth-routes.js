@@ -12,6 +12,7 @@ router.post('/signup',[
 ], authControllers.signup);
 
 router.post('/login', authControllers.login);
+router.post('/logout', authControllers.logout);
 router.post('/sendotp', authControllers.sendEmailOtp);
 router.post('/verify', authControllers.verifyEmail);
 
