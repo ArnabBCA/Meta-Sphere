@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './Auth.module.scss'
 
-import axios from 'axios';
+import { axiosPublic } from '../../api/axios';
 import { Link,useParams } from 'react-router-dom'
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
@@ -69,7 +69,7 @@ const Register = () => {
         onSubmit : async (values)=>{
             try{
                 setLoading(true);
-                const res = await axios.post(`http://localhost:5000/api/auth/signup`, {
+                const res = await axiosPublic.post('/auth/signup', {
                     userName:values.userName,
                     fullName:values.fullName,
                     email:values.email,

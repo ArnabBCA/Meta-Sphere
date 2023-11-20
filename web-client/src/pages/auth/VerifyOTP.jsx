@@ -4,7 +4,7 @@ import styles from './Auth.module.scss';
 import { useDispatch } from 'react-redux';
 import { openSnackbar } from '../../state';
 
-import axios from 'axios';
+import { axiosPublic } from '../../api/axios';
 import { Link, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -41,7 +41,7 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
   const handleSendEmail = async () => {
     try {
       setEmailLoading(true);
-      const res = await axios.post('http://localhost:5000/api/auth/sendotp', {
+      const res = await axiosPublic.post('/auth/sendotp', {
         email: email,
       });
       dispatch(openSnackbar({ message: `${res.data.message}`, severity: 'success' }));
@@ -57,7 +57,7 @@ const VerifyOTP = ({ email, resetForm ,currentPage }) => {
     if (otp.join('').length !== 4) return;
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:5000/api/auth/verify', {
+      const res = await axiosPublic.post('/auth/verify', {
         email: email,
         otp: otp.join(''),
       });

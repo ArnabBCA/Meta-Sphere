@@ -1,7 +1,7 @@
 import React, {  useState } from 'react'
 import styles from './Auth.module.scss'
 
-import axios from 'axios'
+import { axiosPublic } from '../../api/axios'
 import { useNavigate,Link, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
@@ -25,8 +25,7 @@ const Login = () => {
         onSubmit : async (values)=>{
             try {
                 setLoading(true);
-                axios.defaults.withCredentials = true;
-                const res=await axios.post('http://localhost:5000/api/auth/login',{
+                const res=await axiosPublic.post('/auth/login',{
                     email:values.email,
                     password:values.password
                 })
