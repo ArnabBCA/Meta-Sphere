@@ -9,17 +9,17 @@ const PersistLogin = () => {
     const token=useSelector((state)=>state.token);
     const refresh=useRefreshToken();
 
+    const verifyRefreshToken=async()=>{
+        try {
+            await refresh();
+        } catch (error) {
+            console.log(error);
+        }
+        finally{
+            setIsLoading(false);
+        }
+    };
     useEffect(()=>{
-        const verifyRefreshToken=async()=>{
-            try {
-                await refresh();
-            } catch (error) {
-                console.log(error);
-            }
-            finally{
-                setIsLoading(false);
-            }
-        };
         if(token){
             setIsLoading(false);
         }
@@ -27,19 +27,6 @@ const PersistLogin = () => {
             verifyRefreshToken();
         }
     },[]);
-
-    /*const verifyRefreshToken=async()=>{
-        try {
-            await refresh();
-            setIsLoading(false);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(()=>{
-        verifyRefreshToken();
-    },[]);*/
 
     return (
         <>
