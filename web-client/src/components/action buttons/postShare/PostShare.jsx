@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import StyledIconButton from '../../styled Components/CustomIconButton';
+import React, { useState } from 'react';
+import styles from './PostShare.module.scss';
+
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
-import styles from './PostShare.module.scss';
+
+import StyledIconButton from '../../styled Components/CustomIconButton';
+
 const PostShare = ({post}) => {
   const [copied, setCopied] = useState(false);
-
   const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(`${window.location.host}/post/${post._id}`);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
@@ -15,10 +17,8 @@ const PostShare = ({post}) => {
   };
   return (
     <div className={`${styles.postShare} wigetSecondary`}>
-        <span className='secondaryText'>{`${window.location.host}/post/${post._id}`}</span>
-        <CopyToClipboard text={`${window.location.host}/post/${post._id}`} onCopy={handleCopyToClipboard}>
-          <StyledIconButton icon={copied ? <CheckCircleOutlineRoundedIcon style={{color:"green"}}/> : <ContentCopyIcon/>}/>
-        </CopyToClipboard>
+        <input className='secondaryText' type="text" value={`${window.location.host}/post/${post._id}`} disabled/>
+        <StyledIconButton onClick={handleCopyToClipboard} icon={copied ? <CheckCircleOutlineRoundedIcon style={{color:"green"}}/> : <ContentCopyIcon/>}/>
     </div>
   )
 }
