@@ -23,3 +23,17 @@
         overflow: hidden;
     }
 }
+@media only screen and (max-width: 600px) {
+    .storiesSliderModalBackground{
+        .storiesSlider {
+            height: 80%;
+        }
+    }
+}
+@media only screen and (max-width: 400px) {
+    .storiesSliderModalBackground{
+        .storiesSlider {
+            height: 70%;
+        }
+    }
+}
