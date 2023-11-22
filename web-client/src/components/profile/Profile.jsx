@@ -91,7 +91,7 @@ const Profile = ({profileModal, setProfileModal,userId}) => {
                 </div>
             </div>
             <div className={"horizontalHr"+theme}></div>
-            <span className={styles.viewProfile}>View Profile</span>
+            <Link to={`/profile/${user._id}`} className={styles.viewProfile}>View Profile</Link>
     </WigetWrapper>
   )
 }
