@@ -5,7 +5,7 @@ const usersControllers = require('../controllers/users-controllers');
 const checkAuth =require('../middleware/check-auth')
 const router = express.Router();
 
-//router.use(checkAuth);
+router.use(checkAuth);
 router.get('/search/:userName',usersControllers.getUserByUserName);
 router.get('/:id',usersControllers.getUserByUserId);
 router.patch('/:id',usersControllers.updateUser);
