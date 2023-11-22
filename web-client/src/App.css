@@ -31,26 +31,9 @@
     background-color: rgb(210, 210, 210);
     transition: .5s;
 }
-.MuiIconButton-root{
-    background-color: #EEEEEE;
-}
 ::-webkit-scrollbar {
     display: none;
 }
-.globalIconsdark{
-    font-size: 30px;
-    color: white;
-    transition: .5s;
-}
-.globalIconslight{
-    font-size: 30px;
-    color: var(--lightTextPrimary);
-    transition: .5s;
-}
-.infinite-scroll-component__outerdiv{
-    height: 100%;
-}
-
 .my-masonry-grid {
     display: flex;
     width: auto;
