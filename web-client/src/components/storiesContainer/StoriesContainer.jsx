@@ -47,9 +47,7 @@ const StoriesContainer = () => {
     }
   };
   useEffect(() => {
-    return()=>{
-        getTimelineStories();
-    }
+    getTimelineStories();
   }, []);
 
   const fetchMoreData = () => {
