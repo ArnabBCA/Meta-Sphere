@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Profile.module.scss'
 
 import NoProfilePic from '../../assets/account.png'
@@ -15,15 +15,18 @@ import { Link } from 'react-router-dom';
 import { updateCurrentUser,openSnackbar } from '../../state';
 import StyledIconButton from '../styled Components/CustomIconButton';
 import WigetWrapper from '../styled Components/wiget wrapper/WegetWrapper';
+import ProfileModal from './profileModal/ProfileModal';
 
 
-const Profile = ({profileModal, setProfileModal,userId}) => {
+const Profile = ({userId}) => {
   const theme=useSelector((state)=>state.theme);
 
   const dispatch = useDispatch();
+  const currentUser=useSelector((state)=>state.currentUser);
   const axiosPrivate=useAxiosPrivate();
 
-  const [user,setUser]=React.useState({});
+  const [user,setUser]=useState({});
+  const [profileModal,setProfileModal]=useState(false);
 
   const getUserProfileData = async () => {
     try {
@@ -49,33 +52,33 @@ const Profile = ({profileModal, setProfileModal,userId}) => {
                     <span className={"secondaryText"}>{user.fullName}</span>
                 </div>
             </div>
-            <StyledIconButton icon={<EditIcon/>} onClick={()=>setProfileModal(true)}/>
+            {currentUser._id === userId && <StyledIconButton icon={<EditIcon/>} onClick={()=>setProfileModal(true)}/>}  {/* for current user only*/}
         </div>
             <div className={"horizontalHr"+theme}></div>
             <div className={styles.userDetails}>
                 <div className={styles.userDetailsInfo}>
                     <PlaceIcon className={"primaryText"}/>
-                    <span className={"secondaryText"}>{user.location ? user.Location : "Location"}</span>
+                    <span className={"secondaryText"}>{user.location ? user.location : "Location"}</span>
                 </div>
                 <div className={styles.userDetailsInfo}>
                     <WorkOutlineIcon className={"primaryText"}/>
-                    <span className={"secondaryText"}>Occupation</span>
+                    <span className={"secondaryText"}>{user.occupation ? user.occupation : "Ocuupation"}</span>
                 </div>
             </div>
             <div className={"horizontalHr"+theme}></div>
             <div className={styles.postDetails}>
                 <div className={styles.postDetailsInfo}>
-                    <span className={"primaryText"}>10</span>
+                    <span className={"primaryText"}>{user.posts ? user.posts.length :"0"}</span>
                     <span className={"secondaryText"}>Post</span>
                 </div>
                 <div className={"verticalHr"+theme}></div>
                 <div className={styles.postDetailsInfo}>
-                    <span className={"primaryText"}>54</span>
+                    <span className={"primaryText"}>{user.followers ? user.followers.length :"0"}</span>
                     <span className={"secondaryText"}>Followers</span>
                 </div>
                 <div className={"verticalHr"+theme}></div>
                 <div className={styles.postDetailsInfo}>
-                    <span className={"primaryText"}>375</span>
+                    <span className={"primaryText"}>{user.following ? user.following.length : "0"}</span>
                     <span className={"secondaryText"}>Following</span>
                 </div>
             </div>
@@ -83,15 +86,16 @@ const Profile = ({profileModal, setProfileModal,userId}) => {
             <div className={styles.socials}>
                 <div className={styles.socialLink}>
                     <InstagramIcon className={"primaryText"}/>
-                    <span className={"secondaryText"}>arnab_ghosh_gg</span>
+                    <span className={"secondaryText"}>{user.socialLink1 ? user.socialLink1 : "Social Link 1"}</span>
                 </div>
                 <div className={styles.socialLink}>
                     <FacebookIcon className={"primaryText"}/>
-                    <span className={"secondaryText"}>Arnab Ghsoh</span>
+                    <span className={"secondaryText"}>{user.socialLink2 ? user.socialLink2 : "Social Link 2"}</span>
                 </div>
             </div>
             <div className={"horizontalHr"+theme}></div>
             <Link to={`/profile/${user._id}`} className={styles.viewProfile}>View Profile</Link>
+            {profileModal && <ProfileModal setProfileModal={setProfileModal} userId={userId}/>}
     </WigetWrapper>
   )
 }
