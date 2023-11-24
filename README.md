@@ -22,13 +22,13 @@ Go to the project directory
 
 ## For Backend
 ```bash
-  cd api
+cd api
 ```
 
 Install dependencies
 
 ```bash
-  npm install
+npm install
 ```
 
 To run the backend server, you will need to add the following environment variables to your .env file
@@ -44,19 +44,19 @@ CLOUD_NAME='XXXXXXXXXXXX'           # Cloudinary Cloud Name
 API_KEY='XXXXXXXXXXXXX'             # Cloudinary API Key
 API_SECRET='XXXXXXXXXXXXX'          # Cloudinary API Secret
 
-EMAIL='XXXXXXXXXXXXXXXXx'           # Your Gamil Id test@gmail.com     (IMPORTANT see below)
+EMAIL='XXXXXXXXXXXXXXXXX'           # Your Gamil Id test@gmail.com     (IMPORTANT see below)
 PASS='XXXXXXXXXXXX'                 # Googe account 2FA App password   (IMPORTANT see below)
 ```
 
 Start the server
 
 ```bash
-  npm run start
+npm run start
 ```
 
 ## For Frontend
 ```bash
-  cd web-client
+cd web-client
 ```
 
 Install dependencies
