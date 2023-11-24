@@ -5,19 +5,19 @@ const UserSchema = new mongoose.Schema({
         type:String,
         require:true,
         min:3,
-        max:20,
+        max:10,
         unique:true
     },
     fullName:{
         type:String,
         require:true,
         min:3,
-        max:20,
+        max:10,
     },
     email:{
         type:String,
         require:true,
-        max:50,
+        max:20,
         unique:true,
     },
     verified:{
@@ -41,10 +41,6 @@ const UserSchema = new mongoose.Schema({
             type:String,
         },
     },
-    coverPicture:{
-        type:String,
-        default:""
-    },
     followers:{
         type:Array,
         default:[]
@@ -57,25 +53,13 @@ const UserSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    desc:{
-        type:String,
-        max:50
-    },
-    city:{
-        type:String,
-        max:50
-    },
-    from:{
-        type:String,
-        max:50
-    },
     location:{
         type:String,
         max:20
     },
-    realtionship:{
-        type:Number,
-        enum:[1,2,3]
+    occupation:{
+        type:String,
+        max:20
     },
     socialLink1:{
         type:String,
