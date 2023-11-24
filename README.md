@@ -68,7 +68,7 @@ npm install
 To run the backend server, you will need to add the following environment variables to your .env file
 
 ```
-VITE_BASE_URL='XXXXXXXXXXXXXXXX'    # The URL in which the backend is running example 'http://localhost:5000/' 
+VITE_BASE_URL='XXXXXXXX'    # The URL in which the backend is running example 'http://localhost:5000/' 
 ```
 
 
