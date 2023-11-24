@@ -86,7 +86,7 @@ const login = async(req, res) => {
             const refreshToken=jwt.sign({email:user.email},'secret',{expiresIn:"1d"});
 
             await user.updateOne({refreshToken:refreshToken});
-            res.cookie('jwt',refreshToken,{httpOnly:true ,secure:true, maxAge: 24*60*60*1000});
+            res.cookie('jwt',refreshToken,{httpOnly:true ,sameSite:'none',secure:true,maxAge: 24*60*60*1000});
             res.status(200).json({currentUser:userWithoutPassword,token:token});
         }
         else{
