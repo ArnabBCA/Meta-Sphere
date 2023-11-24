@@ -12,7 +12,10 @@ export const initialValues={
   confirmPassword:"",
 }
 export const registerSchema=Yup.object({
-    userName:Yup.string().min(2).max(25).required("User Name cannot be empty"),
+    userName:Yup.string().min(2).max(25).required("User Name cannot be empty")
+    .test("isLowerCaseNoSpaces", "User Name must be in lowercase and without spaces", value => {
+      return /^[a-z0-9_]+$/.test(value) && !/\s/.test(value);
+    }),
     fullName:Yup.string().min(2).max(25).required("Full Name cannot be empty"),
     email:Yup.string().email().required("Email cannot be empty"),
     password:Yup.string().min(6).required("Password cannot be empty"),
