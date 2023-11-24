@@ -24,11 +24,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api/refresh', refreshRoutes);
-app.use('/api/posts', postsRoutes);
-app.use('/api/users', usersRoutes);
-app.use('/api/stories', storyRoutes);
+app.use('/auth', authRoutes);
+app.use('/refresh', refreshRoutes);
+app.use('/posts', postsRoutes);
+app.use('/users', usersRoutes);
+app.use('/stories', storyRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Could not find this route.');
