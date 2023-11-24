@@ -4,19 +4,23 @@ const validFileExtensions = { file: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp']
 function isValidFileType(fileName, fileType) {
   return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
 }
-export const initialValues={
-  userName:"",
-  fullName:"",
-  email:"",
-  password:"",
-  confirmPassword:"",
-}
+export const initialValues = {
+  userName: "",
+  fullName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  location: "",
+  occupation: "",
+  socialLink1: "",
+  socialLink2: "",
+};
 export const registerSchema=Yup.object({
-    userName:Yup.string().min(2).max(25).required("User Name cannot be empty")
+    userName:Yup.string().min(2).max(20).required("User Name cannot be empty")
     .test("isLowerCaseNoSpaces", "User Name must be in lowercase and without spaces", value => {
       return /^[a-z0-9_]+$/.test(value) && !/\s/.test(value);
     }),
-    fullName:Yup.string().min(2).max(25).required("Full Name cannot be empty"),
+    fullName:Yup.string().min(2).max(20).required("Full Name cannot be empty"),
     email:Yup.string().email().required("Email cannot be empty"),
     password:Yup.string().min(6).required("Password cannot be empty"),
     confirmPassword:Yup.string().required("Confirm Password cannot be empty").oneOf([Yup.ref('password'),null],"Pasword must match"),
@@ -27,21 +31,10 @@ export const loginSchema=Yup.object({
   password:Yup.string().min(6).required("Password cannot be empty"),
 });
 
-export const profileSchema=Yup.object({
-    name:Yup.string().min(2).max(25),
-    email:Yup.string().email(),
-    location:Yup.string().min(2).max(25),
-    socialLink1:Yup.string().min(2).max(10),
-    socialLink2:Yup.string().min(2).max(10),
-    //password:Yup.string().min(6).required("Password cannot be empty"),
-    //confirm_password:Yup.string().required("Confirm Password cannot be empty").oneOf([Yup.ref('password'),null],"Pasword must match"),
-    profilePicture:Yup.mixed().nullable()
-    .test("is-valid-type", "Unsupported file type",value => {
-      if(!value) return true;
-      return isValidFileType(value.name.toLowerCase(), "file");
-    })
-    .test("is-valid-size", "Max allowed size is 2Mb",value => {
-      if(!value) return true;
-      return value.size <= MAX_FILE_SIZE;
-    })
+export const profileSchema = Yup.object({
+  fullName: Yup.string().min(2).max(20),
+  location: Yup.string().min(2).max(20),
+  occupation: Yup.string().min(2).max(20),
+  socialLink1: Yup.string().min(2).max(20),
+  socialLink2: Yup.string().min(2).max(20),
 });
