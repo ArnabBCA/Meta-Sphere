@@ -1,12 +1,12 @@
 import React from 'react'
 import styles from './Explore.module.scss'
 import Feed from '../../components/feed/Feed'
-import Navbar from '../../components/navbar/Navbar'
+import NavBar from '../../components/navbar/NavBar'
 
 const Explore = () => {
   return (
     <>
-    <Navbar />
+    <NavBar />
     <div className={styles.explore}>
       <div className={styles.exploreContainer}>
         <Feed page="explore" />
