@@ -76,13 +76,15 @@ const NavBar = () => {
             <div className={`${styles.searchResultContainer} wigetSecondary`}>
             {searchResult.length!=0 ? searchResult.map((user)=>(
                 <div className={styles.userConatainer} key={user.userId}>
-                    <div className={styles.userBox}>
-                        <img src={user.profilePicture ? user.profilePicture : Avatar} alt="" />
-                        <div className={styles.userInfo}>
-                            <span className='primaryText'>@{user.userName}</span>
-                            <span className='secondaryText'>{user.fullName}</span>
+                    <Link to={`/profile/${user.userId}`}>
+                        <div className={styles.userBox}>
+                            <img src={user.profilePicture ? user.profilePicture : Avatar} alt="" />
+                            <div className={styles.userInfo}>
+                                <span className='primaryText'>@{user.userName}</span>
+                                <span className='secondaryText'>{user.fullName}</span>
+                            </div>
                         </div>
-                    </div>
+                    </Link>
                     <FollowUser userId={user.userId} currentUser={currentUser}/>
                 </div>
             )):<span className={'secondaryText'} style={{fontSize:"14px"}}>No user found.</span>}
