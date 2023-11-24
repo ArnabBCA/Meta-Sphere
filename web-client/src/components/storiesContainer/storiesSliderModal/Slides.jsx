@@ -10,9 +10,7 @@ import useMoment from '../../../utils/useMoment';
 
 const Slides = ({stories,story,setOpenStoriesSliderModal,setSlideId}) => {
   useEffect(() => {
-    return () => {
-      setSlideId(stories._id);
-    }
+    setSlideId(stories._id);
   }, [])
   return (
     <div className={styles.storyBackground} style={{ background: `linear-gradient(to right, ${stories.gradient.color1}, ${stories.gradient.color2})` }}>
