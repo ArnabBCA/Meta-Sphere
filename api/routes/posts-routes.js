@@ -6,7 +6,7 @@ const checkAuth=require('../middleware/check-auth')
 
 const router = express.Router();
 
-//router.use(checkAuth);
+router.use(checkAuth);
 
 router.post('/',check('desc').isLength({max:50}),postsController.createPost);
 router .post('/find/post/:id',postsController.getPostById);

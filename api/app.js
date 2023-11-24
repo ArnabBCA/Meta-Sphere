@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
     res.header('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, withCredentials');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
