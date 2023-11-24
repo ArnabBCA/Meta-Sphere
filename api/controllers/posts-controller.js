@@ -32,6 +32,7 @@ const createPost=async(req,res,next)=>{
 
         const savePost=await newPost.save();
         const currentUser=await User.findById(creatorId);
+        await currentUser.updateOne({ $push: { posts: savePost._id } });
 
         const currentUserPost = {
             ...savePost.toObject(),
@@ -146,6 +147,8 @@ const deletePost=async(req,res,next)=>{
             if(post.image.public_id){
                 await cloudinary.uploader.destroy(post.image.public_id);
             }
+            const creator = await User.findById(post.creatorId);
+            await creator.updateOne({ $pull: { posts: post._id } });
             await post.deleteOne();
             res.status(200).json("Post Deleted");
         }
