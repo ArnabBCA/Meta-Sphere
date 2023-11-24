@@ -36,15 +36,15 @@ To run the backend server, you will need to add the following environment variab
 ```
 MONGO_URL='XXXXXXXXXXXXXXXXXX'      # Connect MondoDB Atlas Database         
 JWT_SECRET='XXXXXXXXXXXX'           # JWT Secret for both Access and Refresh Token example 'anyKey'
-PORT=XXXX                           # specify the Port no in which the backend will run example 5000                  
+PORT=XXXX                           # specify the Port no in which the backend will run example 5000 
 
-CLIENT_URL='XXXXXXXXXXXXXXXX'       # Frontend URL example 'http://localhost:5173' 
+CLIENT_URL='XXXXXXXXXXXXXXXX'       # Frontend URL example 'http://localhost:5173'
                                     
 CLOUD_NAME='XXXXXXXXXXXX'           # Cloudinary Cloud Name
 API_KEY='XXXXXXXXXXXXX'             # Cloudinary API Key
 API_SECRET='XXXXXXXXXXXXX'          # Cloudinary API Secret
 
-EMAIL='XXXXXXXXXXXXXXXXx'           # Your Gamil Id test@gmail.com     (IMPORTANT see below) 
+EMAIL='XXXXXXXXXXXXXXXXx'           # Your Gamil Id test@gmail.com     (IMPORTANT see below)
 PASS='XXXXXXXXXXXX'                 # Googe account 2FA App password   (IMPORTANT see below)
 ```
 
