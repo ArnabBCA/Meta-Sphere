@@ -34,9 +34,7 @@ const SuggestedUsers = () => {
         }
     }
     useEffect(()=>{
-        return()=>{
-            getSuggestedUsers();
-        }
+        getSuggestedUsers();
     },[])
     const fetchMoreData = () => {
         getSuggestedUsers();
