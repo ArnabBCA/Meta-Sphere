@@ -32,7 +32,7 @@ Install dependencies
 npm install
 ```
 
-To run the backend server, you will need to add the following environment variables to your .env file
+To run the `backend`, you will need to add the following environment variables to your `.env` file
 
 ```
 MONGO_URL='XXXXXXXXXXXXXXXXXX'      # Connect MondoDB Atlas Database         
@@ -49,12 +49,47 @@ EMAIL='XXXXXXXXXXXXXXXXX'           # Your Gamil Id test@gmail.com     (IMPORTAN
 PASS='XXXXXXXXXXXX'                 # Googe account 2FA App password   (IMPORTANT see below)
 ```
 
+`( Optional )` Don't know what `Google App Passwords` is or want to learn more? https://support.google.com/accounts/answer/185833?hl=en 
+
+`( Optional )` If you dont want to give your `Google 2FA App Password Credentials` or having problem login in with `OTP verification` then `navigate` to `controllers folders` then `open auth-controllers.js file` and `comment out` the following lines in the `login function`. After `running` the `frontend` if asked to `verify OTP` simply ignore and go `login page`. You can now login.
+
+```js
+// Login a user
+const login = async(req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user=await User.findOne({email:email});
+        if(!user){
+            return res.status(401).json({ message: 'Invalid credentials, could not log you in.' });
+        }
+        /*if(!user.verified){              //Comment Out These lines if you dont want to verify user after login
+            return res.status(401).json({ message: 'Email not Verified' });
+        }*/
+        const validPassword = await bcrypt.compare(password,user.password);
+        if(validPassword){
+            const { password, ...userWithoutPassword } = user._doc;
+            const token=jwt.sign({email:user.email},'secret',{expiresIn:"1h"});
+            const refreshToken=jwt.sign({email:user.email},'secret',{expiresIn:"1d"});
+
+            await user.updateOne({refreshToken:refreshToken});
+            res.cookie('jwt',refreshToken,{httpOnly:true ,sameSite:'none',secure:true,maxAge: 24*60*60*1000});
+            res.status(200).json({currentUser:userWithoutPassword,token:token});
+        }
+        else{
+            return res.status(401).json({ message: 'Invalid credentials, could not log you in.' });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: 'Logging in failed, please try again.' });
+    }
+}
+```
 Start the server
 
 ```bash
 npm run start
 ```
-Your backend should give the below output with the PORT no you mentioned in the .env file.
+Your `backend` should give the below output with the `PORT` nunber you mentioned in the `.env` file.
 
 ```bash
 [nodemon] starting `node app.js`
@@ -72,7 +107,7 @@ Install dependencies
 npm install
 ```
 
-To run the frontend, you will need to add the following environment variables to your .env file
+To run the `frontend`, you will need to add the following environment variables to your `.env` file
 
 ```
 VITE_BASE_URL='XXXXXXXX'    # The URL in which the backend is running example 'http://localhost:5000/' 
@@ -82,7 +117,7 @@ Start the frontend
 ```bash
 npm run dev
 ```
-Your frontend should start. Now you can go to the URL below
+Your `frontend` should start. Now you can go to the `URL` below
 
 ```bash
 http://localhost:5173
