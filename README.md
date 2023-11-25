@@ -8,7 +8,8 @@ A Facebook/Instagram clone build on MERN Stack.
 
 - [@ArnabBCA](https://github.com/ArnabBCA)
 
-
+## Tech Stack
+[![My Skills](https://skillicons.dev/icons?i=mongo,express,react,nodejs)](https://skillicons.dev)
 
 ## Run Locally
 
@@ -38,7 +39,7 @@ MONGO_URL='XXXXXXXXXXXXXXXXXX'      # Connect MondoDB Atlas Database
 JWT_SECRET='XXXXXXXXXXXX'           # JWT Secret for both Access and Refresh Token example 'anyKey'
 PORT=XXXX                           # specify the Port no in which the backend will run example 5000 
 
-CLIENT_URL='XXXXXXXXXXXXXXXX'       # Frontend URL example 'http://localhost:5173'
+CLIENT_URL='http://localhost:5173'  # Frontend Default URL
                                     
 CLOUD_NAME='XXXXXXXXXXXX'           # Cloudinary Cloud Name
 API_KEY='XXXXXXXXXXXXX'             # Cloudinary API Key
@@ -53,6 +54,12 @@ Start the server
 ```bash
 npm run start
 ```
+Your backend should give the below output with the PORT no you mentioned in the .env file.
+
+```bash
+[nodemon] starting `node app.js`
+Listening on port 5000
+```
 
 ## For Frontend
 ```bash
@@ -65,11 +72,19 @@ Install dependencies
 npm install
 ```
 
-To run the backend server, you will need to add the following environment variables to your .env file
+To run the frontend, you will need to add the following environment variables to your .env file
 
 ```
 VITE_BASE_URL='XXXXXXXX'    # The URL in which the backend is running example 'http://localhost:5000/' 
 ```
+Start the frontend
 
+```bash
+npm run dev
+```
+Your frontend should start. Now you can go to the URL below
 
+```bash
+http://localhost:5173
+```
 
