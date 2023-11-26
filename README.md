@@ -61,7 +61,7 @@ PASS='XXXXXXXXXXXX'                 # Googe account 2FA App password   (IMPORTAN
 
 `( Optional )` Don't know what `Google App Passwords` is or want to learn more? https://support.google.com/accounts/answer/185833?hl=en 
 
-`( Optional )` If you dont want to give your `Google 2FA App Password Credentials` or having problem login in with `OTP verification` then `navigate` to `controllers folders` then `open auth-controllers.js file` and `comment out` the following lines in the `login function`. After `running` the `frontend` if asked to `verify OTP` simply ignore and go `login page`. You can now login.
+`( Optional )` If you dont want to give your `Google 2FA App Password Credentials` or having problem login in with `OTP verification` then `navigate` to `controllers folders` then `open auth-controllers.js file` and `comment out` the following lines in the `login function` and remove `EMAIL` and `PASS` variable from the `.env` file. After `running` the `frontend` if asked to `verify OTP` simply ignore and go `login page`. You can now login.
 
 ```js
 // Login a user
