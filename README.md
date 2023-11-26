@@ -106,7 +106,7 @@ Your `backend` should give the below output with the `PORT` nunber you mentioned
 Listening on port 5000
 ```
 
-## For Frontend
+## For Frontend 🎨
 ```bash
 cd web-client
 ```
@@ -122,7 +122,7 @@ To run the `frontend`, you will need to add the following environment variables 
 ```
 VITE_BASE_URL='XXXXXXXX'    # The URL in which the backend is running example 'http://localhost:5000/' 
 ```
-Start the frontend 🎨
+Start the frontend
 
 ```bash
 npm run dev
