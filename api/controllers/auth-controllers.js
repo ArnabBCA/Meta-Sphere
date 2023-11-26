@@ -129,20 +129,22 @@ const sendEmailOtp=async (req, res) => {
             });
             await verifyEmail.save();
         }
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.PASS,
-            },
-        });
-        const info = await transporter.sendMail({
-            from: process.env.EMAIL, // sender address
-            to: req.body.email, // list of receivers
-            subject: "OTP for email verification", // Subject line
-            text: "Your One Time OTP is", // plain text body
-            html: `<b>${otp}</b>`, // html body
-        });
+        if(process.env.EMAIL &&  process.env.PASS){
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.PASS,
+                },
+            });
+            const info = await transporter.sendMail({
+                from: process.env.EMAIL, // sender address
+                to: req.body.email, // list of receivers
+                subject: "OTP for email verification", // Subject line
+                text: "Your One Time OTP is", // plain text body
+                html: `<b>${otp}</b>`, // html body
+            });
+        }
         return res.status(200).json({ message: 'Verification Email Send' });
     } catch (err) {
         console.log(err);
