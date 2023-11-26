@@ -3,15 +3,25 @@
 
 A Facebook/Instagram clone build on MERN Stack.
 
+## Live Demo 🍿
+[Meta Sphere](https://meta-sphere.onrender.com/)
 
-## Authors
+### Important Note about live demo 📝
+```txt
+  Because the project in deployed in render.com in free tier.
+  The backend will spin down if the site is not in use for 15 minutes.
+  As a result there might be a delay of about 1 minute when visiting the site.
+  The fontend will display a spinner loading for 1 minute max please be paitent.
+```
+
+## Authors 🧑‍💻
 
 - [@ArnabBCA](https://github.com/ArnabBCA)
 
-## Tech Stack
+## Tech Stack ⚙️
 [![My Skills](https://skillicons.dev/icons?i=mongo,express,react,nodejs)](https://skillicons.dev)
 
-## Run Locally
+## Run Locally 💻
 
 Clone the project
 
@@ -21,7 +31,7 @@ git clone https://github.com/ArnabBCA/Meta-Sphere.git
 
 Go to the project directory
 
-## For Backend
+## For Backend 🛠️
 ```bash
 cd api
 ```
@@ -89,7 +99,7 @@ Start the server
 ```bash
 npm run start
 ```
-Your `backend` should give the below output with the `PORT` nunber you mentioned in the `.env` file.
+Your `backend` should give the below output with the `PORT` nunber you mentioned in the `.env` file. 🎊
 
 ```bash
 [nodemon] starting `node app.js`
@@ -112,12 +122,12 @@ To run the `frontend`, you will need to add the following environment variables 
 ```
 VITE_BASE_URL='XXXXXXXX'    # The URL in which the backend is running example 'http://localhost:5000/' 
 ```
-Start the frontend
+Start the frontend 🎨
 
 ```bash
 npm run dev
 ```
-Your `frontend` should start. Now you can go to the `URL` below
+Your `frontend` should start. Now you can go to the `URL` below 🎉
 
 ```bash
 http://localhost:5173
