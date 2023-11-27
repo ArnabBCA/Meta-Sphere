@@ -129,7 +129,6 @@ const sendEmailOtp=async (req, res) => {
             });
             await verifyEmail.save();
         }
-        if(process.env.EMAIL &&  process.env.PASS){
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -144,7 +143,6 @@ const sendEmailOtp=async (req, res) => {
                 text: "Your One Time OTP is", // plain text body
                 html: `<b>${otp}</b>`, // html body
             });
-        }
         return res.status(200).json({ message: 'Verification Email Send' });
     } catch (err) {
         console.log(err);
