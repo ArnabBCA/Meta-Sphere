@@ -24,6 +24,9 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/test", (req, res) => {
+  res.send("Hello from the server!");
+});
 app.use('/auth', authRoutes);
 app.use('/refresh', refreshRoutes);
 app.use('/posts', postsRoutes);
