@@ -35,6 +35,16 @@ const SuggestedUsers = () => {
     }
     useEffect(()=>{
         getSuggestedUsers();
+        const container = document.getElementById("scrollableSuggestedUserDiv");
+        container?.addEventListener("wheel", function (event) {
+          if (event.deltaY !== 0) {
+            event.preventDefault();
+            container.scrollLeft += event.deltaY * 1;
+          }
+        });
+        return () => {
+          container?.removeEventListener("wheel", () => {});
+        };
     },[])
     const fetchMoreData = () => {
         getSuggestedUsers();
